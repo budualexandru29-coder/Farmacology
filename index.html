@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body>
+<title>Planșe OSPE Farmacologie</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Planșe (sistemul de design „Planșe”), disciplina farmacologie: raft de variante → planșă cu fișa student și baremul, lângă cronometru și scor. */
+:root{
+ --bg:#f2f1f6;--surface:#ffffff;--surface-2:#e9e7f1;--ink:#1d1a2c;--muted:#5d5973;--line:#d8d5e3;
+ --accent:#3b2d91;--accent-soft:#e3dff7;--on-accent:#ffffff;--required:#c42f66;--required-soft:#fbe2eb;
+ --discipline:#7a5a00;--discipline-soft:#f6eccb;--ok:#17744a;--ok-soft:#dcf1e5;--frost:#f7f8fa;
+ --shadow:0 1px 2px rgba(29,26,44,.06),0 12px 28px -20px rgba(29,26,44,.45);
+ --f-display:"Bricolage Grotesque","Segoe UI",system-ui,-apple-system,sans-serif;
+ --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+ --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --bg:#121019;--surface:#1a1724;--surface-2:#242031;--ink:#ece9f6;--muted:#a39eb8;--line:#312c42;
+ --accent:#afa2ff;--accent-soft:#2a2550;--on-accent:#15112e;--required:#ff7ea8;--required-soft:#3d1b29;
+ --discipline:#e6be4a;--discipline-soft:#352a0c;--ok:#5ed39a;--ok-soft:#14321f;--frost:#2a2836;
+ --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 30px -18px rgba(0,0,0,.9);color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#121019;--surface:#1a1724;--surface-2:#242031;--ink:#ece9f6;--muted:#a39eb8;--line:#312c42;
+ --accent:#afa2ff;--accent-soft:#2a2550;--on-accent:#15112e;--required:#ff7ea8;--required-soft:#3d1b29;
+ --discipline:#e6be4a;--discipline-soft:#352a0c;--ok:#5ed39a;--ok-soft:#14321f;--frost:#2a2836;
+ --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 30px -18px rgba(0,0,0,.9);color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--bg)}
+button,input,textarea{font:inherit;color:inherit}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--f-mono)}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* raft */
+.masthead{padding-block:28px 10px;display:grid;gap:14px}
+.masthead h1{font-size:clamp(1.9rem,5.4vw,3.1rem);font-weight:800}
+.masthead h1 i{font-style:normal;color:var(--discipline)}
+.lede{color:var(--muted);max-width:66ch;margin:0}
+.tools{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.tools .wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding-block:10px}
+.seg{display:inline-flex;gap:3px;background:var(--surface-2);border-radius:11px;padding:3px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg button{appearance:none;border:0;background:transparent;border-radius:8px;padding:7px 12px;font-weight:600;font-size:.9rem;cursor:pointer;color:var(--muted);white-space:nowrap;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.chapter{padding-block:22px 6px}
+.chapter>header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px;border-bottom:1px solid var(--line);padding-bottom:8px;flex-wrap:wrap}
+.chapter h2{font-size:1.35rem;font-weight:700}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));gap:16px}
+.jar{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .18s ease,border-color .18s ease;min-width:0}
+.jar:hover{transform:translateY(-2px);border-color:var(--accent)}
+.jar .ph{position:relative;aspect-ratio:16/7;background:var(--discipline-soft);overflow:hidden}
+.jar .glyph{position:absolute;inset:0;display:grid;place-items:center;color:var(--discipline);font-family:var(--f-display);font-weight:800;font-size:2.6rem;letter-spacing:-.01em;line-height:1}
+.jar .ph .done{position:absolute;right:10px;top:10px;font:600 .7rem/1 var(--f-mono);padding:4px 7px;border-radius:999px;background:var(--ok-soft);color:var(--ok)}
+.jar .body{padding:12px 14px 4px;display:grid;gap:4px;flex:1}
+.jar h3{font-size:1.06rem;font-weight:700}
+.jar .org{color:var(--muted);font-size:.86rem;line-height:1.35}
+.label{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px 12px}
+.tag{display:inline-flex;align-items:center;gap:5px;font-family:var(--f-mono);font-size:.72rem;font-weight:600;letter-spacing:.03em;padding:3px 8px;border-radius:5px;background:var(--frost);border:1px solid var(--line);color:var(--ink);white-space:nowrap}
+.tag.k::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--discipline)}
+.disc{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.74rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:3px 9px;border-radius:5px;background:var(--discipline-soft);color:var(--discipline);white-space:nowrap}
+.disc::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--discipline)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px;padding:0;margin:0;list-style:none}
+.steps li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;color:var(--muted);font-size:.92rem}
+.steps li b{color:var(--ink);font-weight:600}
+.steps .n{font:600 .78rem/1 var(--f-mono);width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);margin-top:1px}
+.foot{padding-block:28px 60px;color:var(--muted);font-size:.86rem;display:grid;gap:8px}.foot>div{max-width:80ch}
+
+/* planșă */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:25;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:8px;padding-block:8px;flex-wrap:wrap}
+.btn{appearance:none;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:7px 12px;font-weight:600;font-size:.9rem;cursor:pointer;min-height:38px;display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);white-space:nowrap}
+.btn:hover{border-color:var(--accent)}
+.btn.icon{padding:7px 10px;min-width:38px;justify-content:center}
+.btn.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn[disabled]{opacity:.4;cursor:default}
+.bar .ttl{flex:1 1 140px;min-width:0;font-family:var(--f-display);font-weight:700;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.score{display:flex;gap:6px;align-items:center;font-family:var(--f-mono);font-size:.78rem;flex-wrap:wrap}
+.score .pill{padding:4px 8px;border-radius:999px;background:var(--surface-2);font-weight:600;font-variant-numeric:tabular-nums}
+.score .pill.pass{background:var(--ok-soft);color:var(--ok)}
+.score .pill.fail{background:var(--required-soft);color:var(--required)}
+.timer{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.timer.low{border-color:var(--required);color:var(--required)}
+.timer.out{background:var(--required-soft);border-color:var(--required);color:var(--required)}
+.plansa{display:grid;gap:22px;padding-block:18px 60px;grid-template-columns:minmax(0,1fr);max-width:880px;margin-inline:auto}
+.head{display:grid;gap:6px}
+.head h1{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800}
+.head .sub{color:var(--muted);font-size:.92rem}
+
+/* fișa */
+.fisa{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.fisa .fh{display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:14px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.fisa .fh b{font-family:var(--f-display);font-size:1.05rem}
+.fisa .fh .meta{color:var(--muted);font-size:.86rem;flex-basis:100%}
+.sec{border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:0}
+.sec>h3{font-family:var(--f-body);font-size:.92rem;font-weight:600;padding:10px 16px;background:var(--surface-2);display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.sec>h3 .pts{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-weight:600}
+.stem{padding:12px 16px 4px;margin:0;max-width:70ch}
+.qs{list-style:none;margin:0;padding:6px 16px 14px;display:grid;gap:12px}
+.qs>li{display:grid;grid-template-columns:1.6rem minmax(0,1fr);gap:4px 6px}
+.qs .lt{font-family:var(--f-mono);font-weight:600;color:var(--muted);padding-top:1px}
+.qs .qt{min-width:0}
+.pt{font-family:var(--f-mono);font-weight:600;font-size:.86em;white-space:nowrap}
+.qs textarea{grid-column:2;width:100%;min-height:3.2em;resize:vertical;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:8px 10px;font-size:.94rem;line-height:1.45}
+.qs textarea:focus{outline:3px solid var(--accent-soft);border-color:var(--accent)}
+.important{margin:0;padding:14px 16px;border-top:1px solid var(--line);background:var(--required-soft);display:grid;gap:2px}
+.important b{color:var(--required);font-family:var(--f-mono);letter-spacing:.06em;font-size:.8rem}
+.important p{margin:0;font-size:.92rem}
+.important .t{color:var(--required);font-weight:600}
+
+/* barem */
+.bt{display:grid}
+.br{display:grid;grid-template-columns:2.2rem minmax(0,1fr) repeat(3,3.1rem) 7.6rem;border-top:1px solid var(--line);align-items:stretch}
+.br>div{padding:9px 8px;min-width:0}
+.br .c{text-align:center;font-family:var(--f-mono);font-size:.86rem;font-variant-numeric:tabular-nums;border-left:1px solid var(--line)}
+.br .c.mx{background:var(--surface-2);font-weight:600}
+.br .et{border-left:1px solid var(--line);display:flex;align-items:flex-start;justify-content:center}
+.br .nr{font-family:var(--f-mono);font-weight:600;text-align:center}
+.br.th{background:var(--surface-2);font-weight:600;font-size:.84rem;border-top:0}
+.br.th .c{font-family:var(--f-body);font-size:.78rem;font-weight:600;background:transparent}
+.br.th .c small{display:block;font-weight:400;color:var(--muted);font-size:.7rem}
+.br.sh{background:color-mix(in srgb,var(--accent-soft) 55%,var(--surface))}
+.br.sh .act{display:grid;gap:4px}
+.br.sh .st{color:var(--muted);font-size:.86rem;max-width:70ch}
+.br.sh .sum{font-family:var(--f-mono);font-size:.8rem;font-weight:600;color:var(--muted)}
+.act{display:grid;gap:5px}
+.act .ans{display:block}
+.act .acc,.act .nn{font-size:.84rem;color:var(--muted)}
+.act .srcs{display:flex;flex-wrap:wrap;gap:5px}
+.src-k{font-family:var(--f-mono);font-size:.68rem;padding:1px 6px;border-radius:4px;border:1px solid var(--line);color:var(--accent);background:var(--surface);white-space:nowrap}
+.src-k.o{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 45%,var(--line))}
+.mine{font-size:.86rem;background:var(--accent-soft);border-radius:8px;padding:6px 9px;white-space:pre-wrap}
+.mine b{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);display:block}
+.pick{display:inline-flex;gap:3px;background:var(--surface-2);border-radius:9px;padding:3px}
+.pick button{appearance:none;border:0;background:transparent;border-radius:7px;min-width:30px;min-height:32px;padding:4px 6px;font:600 .78rem/1 var(--f-mono);cursor:pointer;color:var(--muted)}
+.pick button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.br.bonus .act .lab{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;color:var(--accent);font-weight:600}
+.br.bonus .ans{color:var(--accent)}
+.br.tot{font-weight:600;font-size:.92rem}
+.br.tot .span{grid-column:1/-2;padding-left:12px}
+.br.tot .val{border-left:1px solid var(--line);text-align:center;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.br.tot.of .span{color:var(--required)}
+.rule{margin:0;padding:12px 16px;border-top:1px solid var(--line);color:var(--required);font-size:.86rem}
+.rule b{font-weight:600}
+.sign{display:grid;gap:10px;padding:14px 16px;border-top:1px solid var(--line);font-size:.9rem;font-weight:600}
+.sign span{font-weight:400;color:var(--muted)}
+.practice .ans{filter:blur(6px);opacity:.55;transition:filter .2s,opacity .2s;cursor:pointer;user-select:none}
+.practice .ans.shown{filter:none;opacity:1;cursor:auto;user-select:auto}
+.practhint{display:none;padding:10px 16px;font-size:.86rem;background:var(--accent-soft);color:var(--ink)}
+.practice .practhint{display:block}
+@media (prefers-reduced-motion:reduce){.jar,.practice .ans{transition:none}}
+@media (max-width:640px){
+ .br{grid-template-columns:1.8rem minmax(0,1fr)}
+ .br .c{display:none}
+ .br .et{grid-column:2/-1;border-left:0;justify-content:flex-start;padding-top:0}
+ .br.th .et{display:none}
+ .br.tot{grid-template-columns:minmax(0,1fr) auto}
+ .br.tot .span{grid-column:auto}
+ .br.tot .val{min-width:5rem}
+ .pick::before{content:"puncte";font:500 .7rem/32px var(--f-mono);color:var(--muted);padding:0 6px}
+}
+/* matrice */
+.mx-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table.mx{border-collapse:collapse;width:100%;min-width:1180px;font-size:.88rem}
+.mx th,.mx td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:center}
+.mx thead th{background:var(--surface-2);font:600 .78rem/1.2 var(--f-mono);position:sticky;top:0}
+.mx th[scope="row"],.mx td.nm{text-align:left;font-weight:500}.mx th[scope="row"]{width:1%}
+.mx td.nm{color:var(--muted);font-size:.84rem}
+.mx .grp th{background:color-mix(in srgb,var(--discipline-soft) 70%,var(--surface));text-align:left;font:600 .74rem/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--discipline)}
+.mx .hit{display:inline-grid;place-items:center;width:1.7rem;height:1.4rem;border-radius:5px;background:var(--accent-soft);color:var(--accent);font:600 .7rem/1 var(--f-mono)}
+.mx .zero th,.mx .zero td.nm{color:var(--required)}
+.mx tfoot td,.mx tfoot th{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:600;background:var(--surface-2)}
+a.vl{color:inherit;text-decoration:none}a.vl:hover{color:var(--accent)}
+
+/* tipar */
+.paper{background:#fff;color:#111;border:1px solid var(--line);border-radius:6px;padding:28px 32px;max-width:820px;margin:0 auto 22px;font-size:14px;line-height:1.45}
+.paper .ph1{font-weight:600;margin:0}
+.paper h2{font-family:var(--f-body);color:#1f5fa8;text-align:center;font-size:17px;margin:14px 0 2px}
+.paper .vx{color:#1f5fa8;text-align:center;font-weight:700;margin:0 0 14px}
+.paper ol.pq{margin:0;padding-left:20px;display:grid;gap:10px}
+.paper ol.pq ol{list-style:lower-alpha;padding-left:22px;margin:6px 0 0;display:grid;gap:3px}
+.paper .imp{border-top:2px solid #1f5fa8;margin-top:18px;padding-top:8px}
+.paper .imp b{color:#1f5fa8}.paper .red{color:#c0161f;font-weight:700}
+.paper table{border-collapse:collapse;width:100%;font-size:12.5px}
+.paper td,.paper th{border:1px solid #333;padding:4px 6px;vertical-align:top}
+.paper th{font-weight:700}
+.paper td.c{text-align:center;width:42px}.paper td.c.g{background:#c8c8c8;font-weight:700}
+.paper tr.s td{background:#dbe3f1;font-weight:700}
+.paper .blue{color:#1f5fa8}
+.paper .rule{color:#c0161f;border:0;padding:8px 0 0;font-size:12px}
+.paper .sg{margin-top:14px;font-weight:700}
+.paper .pn{color:#555;font-size:11px}
+.tip-note{color:var(--muted);font-size:.9rem;max-width:70ch;margin:0 auto 18px}
+@media print{
+ :root{--bg:#fff;--surface:#fff;--surface-2:#eee;--ink:#111;--muted:#444;--line:#999;color-scheme:light}
+ .tools,.bar,.masthead,.foot,.tip-note,.noprint{display:none!important}
+ body{background:#fff}
+ .paper{border:0;border-radius:0;margin:0;max-width:none;padding:0;break-after:page}
+ .qs textarea{display:none}
+ .chapter>header{display:none}
+ .chapter{padding:0}
+ .paper table{font-size:10.4px;line-height:1.3}
+ .paper td,.paper th{padding:2.5px 5px}
+ .paper .pn{font-size:9.2px}
+ .paper .rule{font-size:10.5px}
+ .paper .sg{margin-top:8px}
+ .paper h2{margin-top:8px}
+}
+</style>
+
+<div id="app"></div>
+
+<script>
+// Variante OSPE Farmacologie generală · Anul II MG · Modulul 1
+// Fiecare item: q = cerința din fișa student; ans = răspunsul din barem (cu „(x p)” pentru fiecare noțiune);
+// acc = formulări echivalente acceptate; p = [0, parțial|null, maxim]; n = noțiuni cerute (regula 50%);
+// src = trimiteri la LP (cazul) și la Materialul OSPE (pagina); dom = FC | FD | FT.
+const VARIANTE = [
+{
+ id: 1, titlu: "Peptid oral · agonist β2 · down-regulation",
+ subiecte: [
+  { dom: "FC", stem: "Un medicament cu structură peptidică se administrează per os. Se recoltează probe de sânge la 20, 40, 60 și 90 de minute, iar concentrația plasmatică a medicamentului este 0 μg/mL la toate recoltările.",
+    items: [
+     { q: "Explicați valorile concentrației plasmatice.", ans: "Substanța nu se absoarbe, nu ajunge în sânge (0,5 p); este degradată de proteazele din tractul gastro-intestinal înainte de a traversa membranele (0,5 p).", acc: "„inactivată de enzimele digestive”, „scindată în fragmente de peptide și aminoacizi”.", p: [0, 0.5, 1], src: ["LP 1 · c1"] },
+     { q: "Ce parametru farmacocinetic primar caracterizează absorbția și ce valoare are în acest caz?", ans: "Biodisponibilitatea (Bd, F) (0,5 p); practic nulă, ≈ 0% (0,5 p).", acc: "„Bd = 0”, „nu este biodisponibil oral”.", p: [0, 0.5, 1], src: ["LP 1 · c1", "OSPE p.1"] },
+     { q: "Numiți două condiții pe care trebuie să le îndeplinească o substanță ca să poată traversa membranele biologice.", ans: "Oricare două, câte 0,5 p: liposolubilă (coeficient de repartiție octanol/apă); neionizată (depinde de pH și pKa); nelegată de proteine.", acc: "„lipofilă”, „nepolară”, „fracția liberă”.", p: [0, 0.5, 1], n: 2, src: ["LP 1 · De reținut"] }
+    ]},
+  { dom: "FD", stem: "Un pacient folosește inhalator o substanță cu afinitate pentru receptorii β2 cuplați cu proteine Gs și cu activitate intrinsecă, cu distribuție bună în musculatura netedă traheobronșică.",
+    items: [
+     { q: "Ce tip de ligand este substanța?", ans: "Agonist.", acc: "„agonist β2”, „simpatomimetic β2-stimulator”.", p: [0, null, 0.5], src: ["LP 3 · c3", "OSPE p.7"] },
+     { q: "Ce fel de receptori sunt receptorii β2 (localizare la nivelul celulei, cuplare)?", ans: "Receptori membranari (0,5 p), cuplați cu proteine Gs (0,5 p).", acc: "„receptori de suprafață”, „GPCR – Gs”.", p: [0, 0.5, 1], src: ["LP 3 · c3", "OSPE p.8"] },
+     { q: "Ce efect are asupra bronhiilor și în ce afecțiuni poate fi utilă?", ans: "Bronhodilatație (0,5 p); astm bronșic sau BPOC (0,5 p).", acc: "„relaxarea musculaturii netede bronșice”.", p: [0, 0.5, 1], src: ["LP 3 · c3", "OSPE p.15"] },
+     { q: "Ce efect ar avea asupra uterului gravid și în ce situație ar fi util?", ans: "Relaxare, efect tocolitic (0,5 p); întârzierea instalării travaliului (0,5 p).", acc: "„prevenirea nașterii premature”.", p: [0, 0.5, 1], src: ["LP 3 · tabel Rp adrenergici", "OSPE p.15"] }
+    ]},
+  { dom: "FT", stem: "După câteva luni de utilizare continuă, pacientul observă că efectul bronhodilatator nu mai are intensitatea de la începutul terapiei.",
+    items: [
+     { q: "Explicați mecanismul farmacodinamic al scăderii efectului.", ans: "Down-regulation, reglare descendentă a densității receptoriale (0,5 p): excesul de agonist duce la internalizarea receptorilor și la scăderea numărului lor de la suprafața membranei (1 p).", acc: "„toleranță prin mecanism farmacodinamic” + mecanismul; doar termenul fără mecanism = 0,5 p.", p: [0, 0.5, 1.5], src: ["LP 4 · c4", "OSPE p.11", "OSPE p.13"] },
+     { q: "Ce măsură permite obținerea unui efect de aceeași intensitate?", ans: "Creșterea dozei de medicament (1 p).", acc: "„asocierea cu corticosteroizi, care atenuează down-regulation”.", p: [0, null, 1], src: ["LP 4 · c4"] }
+    ]}
+ ],
+ bonus: { q: "Explicați mecanismul intracelular prin care substanța produce bronhodilatație.", ans: "Stimulare β2 (Gs) → αs activează adenilat-ciclaza → ↑ AMPc → ↑ protein-kinaza A → ↑ Ca²⁺-ATPaza (și sechestrarea Ca²⁺ în reticulul endoplasmatic) → ↓ Ca²⁺ intracelular → relaxarea musculaturii netede.", src: ["LP 3 · c3", "OSPE p.15"] }
+},
+{
+ id: 2, titlu: "Antagonist α1 · inductor enzimatic · efect secundar",
+ subiecte: [
+  { dom: "FD", stem: "Un pacient hipertensiv primește o substanță cu afinitate pentru receptorii α1 cuplați cu proteine Gq din musculatura netedă vasculară, lipsită de activitate intrinsecă.",
+    items: [
+     { q: "Ce tip de ligand este substanța?", ans: "Antagonist.", acc: "„blocant α1”, „simpatolitic α1”.", p: [0, null, 0.5], src: ["LP 3 · Interacțiunea ligand-receptor", "OSPE p.7"] },
+     { q: "Ce fel de receptori sunt receptorii α1 (localizare la nivelul celulei, cuplare)?", ans: "Receptori membranari (0,5 p), cuplați cu proteine Gq (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 3 · tabel Rp adrenergici", "OSPE p.8"] },
+     { q: "Ce efect are asupra vaselor de sânge și asupra tensiunii arteriale?", ans: "Vasodilatație (0,75 p) → scăderea tensiunii arteriale (0,75 p).", acc: "„scade TA”, „efect antihipertensiv”.", p: [0, 0.75, 1.5], src: ["OSPE p.16"] }
+    ]},
+  { dom: "FC", stem: "Substanța de la subiectul 1 este inactivată hepatic de CYP3A4. Pacientul începe un tratament cronic cu un al doilea medicament, inductor enzimatic puternic al CYP3A4. După 3 săptămâni, valorile tensionale cresc din nou.",
+    items: [
+     { q: "Explicați creșterea valorilor tensionale.", ans: "Inductorul enzimatic crește rata de sinteză a CYP3A4 (1 p) → antihipertensivul este metabolizat mai repede, concentrația lui plasmatică scade, iar efectul scade (1 p).", acc: "„se elimină mai repede”, „risc de ineficacitate terapeutică”.", p: [0, 1, 2], src: ["LP 2 · Consecințe inductor", "LP 2 · c1", "OSPE p.3"] },
+     { q: "Ce măsuri se pot lua?", ans: "Creșterea dozei antihipertensivului (0,5 p) sau evitarea asocierii, cu folosirea unei alternative (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 2 · Consecințe inductor"] },
+     { q: "De ce activitatea CYP3A4 poate fi indusă, spre deosebire de cea a acetilcolinesterazei?", ans: "CYP3A4 este enzimă microzomială (citocrom P450), cu specificitate redusă de substrat, inductibilă (0,5 p); acetilcolinesteraza este enzimă nemicrozomială, cu specificitate înaltă (metabolizează compuși endogeni), neinductibilă (0,5 p).", acc: "„garnitură nespecifică vs. specifică”.", p: [0, 0.5, 1], src: ["LP 2 · Metabolizarea", "OSPE p.3"] }
+    ]},
+  { dom: "FT", stem: "La creșterea dozei, pacientul prezintă hipotensiune arterială, explicată prin vasodilatația produsă de substanța de la subiectul 1.",
+    items: [
+     { q: "Încadrați această reacție (efect secundar sau efect toxic) și argumentați.", ans: "Efect secundar (0,5 p): efect neintenționat, dependent de mecanismul de acțiune și de doză (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · Reacții adverse"] },
+     { q: "Prin ce se deosebește un efect toxic de un efect secundar?", ans: "Efectul toxic se produce printr-un mecanism toxic direct, cu afectarea unui organ sau sistem (hepatic, SNC, efecte teratogene, mutagene, carcinogene) (1 p).", acc: "Un exemplu de organ afectat e suficient pentru punctaj maxim dacă e prezent „mecanism toxic direct”.", p: [0, 0.5, 1], src: ["LP 4 · Reacții adverse"] }
+    ]}
+ ],
+ bonus: { q: "Explicați mecanismul molecular prin care substanța de la subiectul 1 produce vasodilatație.", ans: "Blocarea receptorilor α1 (Gq) → nu se mai activează fosfolipaza C → ↓ IP3 și DAG → ↓ Ca²⁺ intracelular → relaxarea musculaturii netede vasculare.", src: ["OSPE p.16", "LP 3 · c5"] }
+},
+{
+ id: 3, titlu: "Volum de distribuție · antagonist muscarinic · dependență",
+ subiecte: [
+  { dom: "FC", stem: "Se administrează i.v. câte 100 mg din două substanțe. Substanța P realizează o concentrație plasmatică inițială de 25 mg/L, iar substanța Q de 0,5 mg/L. Distribuția este rapidă, iar eliminarea până la măsurare este neglijabilă.",
+    items: [
+     { q: "Calculați volumul aparent de distribuție pentru fiecare substanță.", ans: "Vd = doza i.v. / c0: Vd (P) = 100 mg / 25 mg/L = 4 L (0,5 p); Vd (Q) = 100 mg / 0,5 mg/L = 200 L (0,5 p).", acc: "Rezultat corect cu unitate de măsură; fără unitate, se acordă jumătate.", p: [0, 0.5, 1], src: ["LP 1 · c5", "OSPE p.2"] },
+     { q: "Unde se distribuie preferențial fiecare substanță?", ans: "P – intravascular, în sânge (Vd ≈ 3 L) (0,5 p); Q – în țesuturi, cu acumulare tisulară (Vd depășește apa totală, ≈ 42 L) (0,5 p).", acc: "„Q are afinitate mare pentru anumite țesuturi”.", p: [0, 0.5, 1], src: ["LP 1 · c5", "OSPE p.2"] }
+    ]},
+  { dom: "FD", stem: "În sacul conjunctival al unui iepure se instilează o substanță cu afinitate pentru receptorii muscarinici M1,3 (Gq) și M2 (Gi), lipsită de activitate intrinsecă.",
+    items: [
+     { q: "Ce efect are asupra diametrului pupilar, acomodării și presiunii intraoculare?", ans: "Midriază pasivă (0,5 p); cicloplegie, paralizia acomodării (0,5 p); creșterea presiunii intraoculare (0,5 p).", acc: "„midriază” fără „pasivă” se acceptă.", p: [0, 0.5, 1.5], src: ["LP 3 · c7", "OSPE p.16"] },
+     { q: "Explicați de ce crește presiunea intraoculară.", ans: "Relaxarea mușchiului circular al irisului și a mușchiului ciliar (0,5 p) → îngreunarea scurgerii umorii apoase prin rețeaua trabeculară (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 3 · c7.4", "OSPE p.16"] },
+     { q: "Ce efect ar avea la nivel cardiac dacă s-ar absorbi sistemic? Prin blocarea căror receptori?", ans: "Creșterea frecvenței cardiace, tahicardie, efect vagolitic (0,5 p); prin blocarea receptorilor M2 (Gi) (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 3 · tabel Rp colinergici", "OSPE p.15"] },
+     { q: "Ce efect ar avea asupra glandelor salivare?", ans: "Efect antisecretor, uscăciunea gurii (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 3 · c6", "OSPE p.16"] }
+    ]},
+  { dom: "FT", stem: "Un pacient folosește cronic o substanță cu afinitate pentru receptorii GABA-A și activitate intrinsecă. O întrerupe brusc și, în zilele următoare, prezintă anxietate, insomnie și tremor.",
+    items: [
+     { q: "Cum se numește fenomenul apărut și ce tip de dependență indică?", ans: "Sindrom de abstinență (0,5 p), care indică dependență fizică (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · Reacții adverse", "OSPE p.13"] },
+     { q: "Explicați diferența dintre dependența psihică și dependența fizică.", ans: "Dependența psihică: dorință crescută de a consuma substanța pentru obținerea unei satisfacții de ordin emoțional (1 p). Dependența fizică: modificări adaptative ca urmare a consumului cronic, manifestate prin sindrom de abstinență la întrerupere, cu simptome de obicei opuse efectelor substanței (1 p).", acc: "", p: [0, 1, 2], src: ["LP 4 · c4.3", "OSPE p.13"] }
+    ]}
+ ],
+ bonus: { q: "Explicați mecanismul molecular al midriazei produse de substanța de la subiectul 2.", ans: "Blocarea M3 (Gq) din mușchiul circular al irisului → nu se activează PLC → nu se hidrolizează PIP2 la IP3 + DAG → ↓ Ca²⁺ → relaxarea mușchiului circular → midriază pasivă.", src: ["LP 3 · c5", "LP 3 · c7", "OSPE p.16"] }
+},
+{
+ id: 4, titlu: "Deplasare de pe proteine · agonist GABA-A · tahifilaxie",
+ subiecte: [
+  { dom: "FC", stem: "Un pacient cu diabet zaharat folosește cronic substanța G, care stimulează eliberarea de insulină și se leagă de albumină în proporție de peste 90%. Pentru o durere, își administrează substanța X, care se leagă în aceeași proporție de aceleași situsuri ale albuminei. După câteva ore apar tahicardie, transpirații, tremor și foame.",
+    items: [
+     { q: "Ce complicație a apărut și cum se explică?", ans: "Hipoglicemie (0,5 p); X deplasează G de pe proteinele plasmatice (0,5 p) → crește fracția liberă a lui G (0,5 p) → efect intensificat, supradozare relativă la doză terapeutică (0,5 p).", acc: "„competiție pentru situsurile de legare”.", p: [0, 1, 2], src: ["LP 1 · c7", "OSPE p.1–2"] },
+     { q: "Ce situație patologică ar putea crește fracția liberă a lui G chiar fără substanța X? Dați un exemplu de cauză.", ans: "Hipoalbuminemia (0,5 p); cauze, oricare: ciroză, insuficiență hepatică, cașexie, boală cronică renală (0,5 p).", acc: "„scăderea proteinelor plasmatice”.", p: [0, 0.5, 1], src: ["LP 1 · Proteine de legare", "OSPE p.1"] }
+    ]},
+  { dom: "FD", stem: "Substanța A are lipofilie crescută, traversează bariera hematoencefalică, are afinitate pentru receptori din SNC cuplați cu canale de Cl⁻ și are activitate intrinsecă.",
+    items: [
+     { q: "Ce fel de receptori sunt aceștia? Dați un exemplu.", ans: "Receptori membranari cuplați cu canale ionice (0,5 p); receptorul GABA-A sau receptorul pentru glicină (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · c1", "OSPE p.9"] },
+     { q: "Ce modificări produce la nivelul membranei neuronale?", ans: "Deschiderea canalului cu influx de Cl⁻ (0,5 p) → hiperpolarizare (0,5 p) → potențial postsinaptic inhibitor (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 4 · c1", "OSPE p.9"] },
+     { q: "Ce efect are la nivelul SNC?", ans: "Efect deprimant, inhibitor (0,5 p).", acc: "„sedativ”, „inhibă activitatea neuronală”.", p: [0, null, 0.5], src: ["OSPE p.9"] },
+     { q: "Ce s-ar întâmpla cu efectul central dacă substanța ar fi puternic hidrofilă?", ans: "Nu ar traversa bariera hematoencefalică, deci nu ar ajunge la receptorii din SNC și nu ar avea efect central (1 p).", acc: "", p: [0, 0.5, 1], src: ["LP 1 · c4", "LP 1 · De reținut"] }
+    ]},
+  { dom: "FT", stem: "O substanță care favorizează eliberarea noradrenalinei din terminațiile presinaptice simpatice este folosită ca picături nazale, la interval de câteva ore. După câteva administrări nu mai are efect.",
+    items: [
+     { q: "Cum se numește fenomenul și prin ce mecanism se produce?", ans: "Toleranță acută, tahifilaxie (0,5 p), prin epuizarea stocurilor presinaptice de noradrenalină (1 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 4 · c3", "OSPE p.14"] },
+     { q: "Se poate restabili efectul prin creșterea dozei? Argumentați.", ans: "Nu; trebuie să treacă un timp pentru refacerea stocurilor de mediator (0,5 p).", acc: "", p: [0, null, 0.5], src: ["OSPE p.14"] }
+    ]}
+ ],
+ bonus: { q: "Prin ce receptori și ce cale intracelulară produce noradrenalina eliberată efectul decongestionant?", ans: "Receptori α1 (Gq) vasculari → ↑ PLC → ↑ IP3 + DAG → ↑ Ca²⁺ → contracția musculaturii netede vasculare → vasoconstricție, decongestionarea mucoasei nazale.", src: ["LP 4 · c3", "OSPE p.16"] }
+},
+{
+ id: 5, titlu: "pH urinar · antagonist β1 · rebound",
+ subiecte: [
+  { dom: "FC", stem: "Un pacient este adus la spital în stare de inconștiență după ingestia unei cantități mari dintr-o substanță cu caracter slab acid, care se excretă renal și se reabsoarbe tubular.",
+    items: [
+     { q: "Propuneți o modalitate de creștere a eliminării renale a substanței.", ans: "Alcalinizarea urinii (1 p).", acc: "„administrarea de bicarbonat de sodiu”.", p: [0, null, 1], src: ["LP 2 · c5", "OSPE p.5"] },
+     { q: "Explicați mecanismul.", ans: "În urina alcalină, acidul slab trece predominant în formă ionizată (0,5 p), polară, hidrofilă (0,5 p), care nu se reabsoarbe tubular și rămâne în urină (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 2 · Influența pH-ului urinar", "OSPE p.5"] },
+     { q: "Ce s-ar întâmpla cu o substanță slab bazică dacă urina ar fi alcalinizată?", ans: "Ar fi predominant neionizată, s-ar reabsorbi tubular, iar efectul ar crește, uneori până la toxicitate (0,5 p).", acc: "", p: [0, null, 0.5], src: ["OSPE p.5"] }
+    ]},
+  { dom: "FD", stem: "Substanța M are afinitate pentru receptorii β1 cuplați cu proteine Gs din cord și din aparatul juxtaglomerular și nu are activitate intrinsecă.",
+    items: [
+     { q: "Ce tip de ligand este substanța?", ans: "Antagonist (0,5 p).", acc: "„beta-blocant”, „simpatolitic β1”.", p: [0, null, 0.5], src: ["LP 3 · c4"] },
+     { q: "Ce efect are asupra cordului?", ans: "Scade frecvența cardiacă (0,5 p) și forța de contracție (0,5 p).", acc: "„cardioinhibiție”, „efecte trop-negative”.", p: [0, 0.5, 1], src: ["LP 3 · c4", "OSPE p.14"] },
+     { q: "Ce efect are la nivelul aparatului juxtaglomerular și ce consecință are asupra tensiunii arteriale?", ans: "Scade secreția de renină (0,5 p) → mai puțină angiotensină II, scăderea retenției hidrosaline și a volemiei → scade TA (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 3 · c4", "OSPE p.14"] },
+     { q: "Numiți două indicații terapeutice.", ans: "Oricare două, câte 0,5 p: hipertensiune arterială, angină pectorală, tahiaritmii.", acc: "", p: [0, 0.5, 1], n: 2, src: ["OSPE p.14"] }
+    ]},
+  { dom: "FT", stem: "După câțiva ani de tratament cu substanța M, pacientul o întrerupe brusc. A doua zi ajunge la UPU cu criză hipertensivă și tahicardie.",
+    items: [
+     { q: "Explicați mecanismul acestor manifestări.", ans: "Administrarea cronică a antagonistului crește densitatea receptorială – up-regulation (0,5 p); la întrerupere, mai mulți receptori sunt disponibili pentru mediatorii endogeni (0,5 p) → efect de rebound (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 4 · c5", "OSPE p.11"] },
+     { q: "Cum ar putea fi prevenite?", ans: "Reducerea treptată a dozelor (1 p).", acc: "„întreruperea progresivă”.", p: [0, null, 1], src: ["LP 4 · c5"] }
+    ]}
+ ],
+ bonus: { q: "Explicați mecanismul molecular al scăderii forței de contracție.", ans: "Blocarea β1 (Gs) → nu se activează adenilat-ciclaza → ↓ AMPc → ↓ protein-kinaza A → ↓ deschiderea canalelor de Ca²⁺ tip L → ↓ Ca²⁺ intracelular → scade contracția.", src: ["LP 3 · c4", "OSPE p.14"] }
+},
+{
+ id: 6, titlu: "Prodrug + inhibitor · agonist muscarinic · acatalazie",
+ subiecte: [
+  { dom: "FC", stem: "Un pacient folosește un antiagregant plachetar administrat ca prodrug, transformat în metabolitul activ de CYP2C19. Pentru protecție gastrică i se asociază un medicament cu acțiune inhibitoare asupra CYP2C19.",
+    items: [
+     { q: "Ce consecință are această asociere asupra efectului antiagregant?", ans: "Scade rata de bioactivare, de formare a metabolitului activ (0,75 p) → scade efectul antiagregant, risc de ineficacitate (0,75 p).", acc: "", p: [0, 0.75, 1.5], src: ["LP 2 · c4", "OSPE p.4"] },
+     { q: "Ce măsură se recomandă?", ans: "Evitarea asocierii, cu folosirea unei alternative (0,5 p).", acc: "„creșterea dozei de prodrug”.", p: [0, null, 0.5], src: ["LP 2 · c4"] },
+     { q: "Ce s-ar întâmpla dacă al doilea medicament ar fi inductor al CYP2C19?", ans: "Ar crește rata de formare a metabolitului activ (0,5 p) → ar crește eficacitatea, dar și toxicitatea (0,5 p).", acc: "„risc de sângerare”.", p: [0, 0.5, 1], src: ["LP 2 · Consecințe inductor", "OSPE p.3"] }
+    ]},
+  { dom: "FD", stem: "Într-un vas cu soluție în condiții fiziologice (izotonie, izoionie, O2, 37°C) se plasează un fragment de intestin subțire. Se adaugă o substanță cu afinitate pentru receptorii M1,3 (Gq) și cu activitate intrinsecă, iar ulterior un antagonist al acelorași receptori.",
+    items: [
+     { q: "Cum este influențată contractilitatea după adăugarea primei substanțe?", ans: "Crește, contracție (0,5 p).", acc: "„crește peristaltismul”.", p: [0, null, 0.5], src: ["LP 3 · c5", "OSPE p.16"] },
+     { q: "Cum se modifică după adăugarea antagonistului? Explicați.", ans: "Contracția este anulată, musculatura se relaxează (0,5 p), deoarece antagonistul blochează receptorii și împiedică acțiunea agonistului (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 3 · c5", "OSPE p.7"] },
+     { q: "Numiți alte două efecte pe care le-ar avea agonistul administrat sistemic.", ans: "Oricare două, câte 0,5 p: hipersecreția glandelor exocrine, bronhoconstricție, mioză cu scăderea presiunii intraoculare, favorizarea micțiunii, vasodilatație (prin NO).", acc: "", p: [0, 0.5, 1], n: 2, src: ["LP 3 · tabel Rp colinergici", "OSPE p.16"] },
+     { q: "Dacă substanța ar stimula și receptorii M2 (Gi) cardiaci, ce efect ar avea și prin ce mecanism?", ans: "Scade frecvența cardiacă, efect vagotonic (0,5 p); prin deschiderea canalelor de K⁺ → hiperpolarizare membranară (0,5 p).", acc: "„bradicardie”, „efect cronotrop negativ”.", p: [0, 0.5, 1], src: ["OSPE p.15"] }
+    ]},
+  { dom: "FT", stem: "Un copil se lovește, iar rana este dezinfectată cu apă oxigenată. În loc de degajare de gaz, sângele devine negru-cenușiu.",
+    items: [
+     { q: "Explicați fenomenul.", ans: "Acatalazie, deficit de catalază (0,5 p); apa oxigenată oxidează fierul bivalent din hemoglobină la fier trivalent → methemoglobină (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · c6", "OSPE p.12"] },
+     { q: "Ce tip de reacție adversă este și prin ce se deosebește de o reacție alergică?", ans: "Reacție de tip idiosincrazic: intoleranță înnăscută, deficit enzimatic condiționat genetic (0,75 p); reacția alergică are mecanism imunologic, apare la re-expunere (intoleranță dobândită) (0,75 p).", acc: "", p: [0, 0.75, 1.5], src: ["LP 4 · c6.3", "OSPE p.12"] }
+    ]}
+ ],
+ bonus: { q: "Explicați mecanismul molecular al contracției intestinale produse de agonist.", ans: "Stimulare M1,3 (Gq) → ↑ PLC → PIP2 → IP3 + DAG; IP3 eliberează Ca²⁺ din reticulul endoplasmatic → contracție fazică; DAG → PKC → contracție tonică.", src: ["LP 3 · c5", "OSPE p.11"] }
+},
+{
+ id: 7, titlu: "Cinetică de ordinul I · supradoză de agonist · anafilaxie",
+ subiecte: [
+  { dom: "FC", stem: "După o doză unică, se măsoară concentrația plasmatică a unui medicament: 80 μg/mL la 0 h, 40 μg/mL la 2 h, 20 μg/mL la 4 h, 10 μg/mL la 6 h și 5 μg/mL la 8 h.",
+    items: [
+     { q: "Ce tip de cinetică de eliminare urmează medicamentul? Argumentați.", ans: "Cinetică de ordinul I: concentrația scade exponențial, la jumătate în intervale egale (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 2 · c7", "OSPE p.4"] },
+     { q: "Care este timpul de înjumătățire?", ans: "2 ore (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 2 · c6", "OSPE p.4"] },
+     { q: "După cât timp se poate considera eliminarea practic completă?", ans: "După 5–7 t1/2 (0,5 p) = 10–14 ore (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 2 · c6", "OSPE p.4"] },
+     { q: "Câte administrări pe zi ar fi necesare și cum s-ar putea reduce numărul lor?", ans: "Intervalul dintre doze este 1–2 t1/2, adică 2–4 ore → 6–12 administrări pe zi (0,5 p); forme farmaceutice retard, cu eliberare prelungită (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 2 · c6"] }
+    ]},
+  { dom: "FD", stem: "Un pacient ajunge la UPU după o supradoză cu substanța B. Se cunosc: substanța B produce deprimare respiratorie, are afinitate pentru receptori membranari din centrul respirator bulbar și are activitate intrinsecă.",
+    items: [
+     { q: "Ce tip de ligand este substanța B?", ans: "Agonist (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 3 · c2"] },
+     { q: "Care este cea mai bună abordare terapeutică? Explicați.", ans: "Un antagonist competitiv al acelorași receptori (1 p), care intră în competiție cu B pentru situsul de legare și anulează efectul, deprimarea respiratorie (0,5 p).", acc: "„antidot – antagonist al receptorului”.", p: [0, 1, 1.5], src: ["LP 3 · c2", "OSPE p.7"] },
+     { q: "Definiți afinitatea și activitatea intrinsecă.", ans: "Afinitatea: capacitatea ligandului de a se lega specific de situsul de legare al receptorului (0,5 p). Activitatea intrinsecă: capacitatea ligandului de a activa receptorul și de a produce un răspuns biologic după legare (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 3 · Interacțiunea ligand-receptor", "OSPE p.7"] }
+    ]},
+  { dom: "FT", stem: "Un pacient de 60 de ani primește antibioterapie pentru o infecție streptococică. La câteva ore după administrare acuză dificultăți respiratorii, amețeală și hipotensiune.",
+    items: [
+     { q: "Explicați mecanismul manifestărilor, precizând receptorii histaminei implicați.", ans: "Reacție alergică de tip I: complexul antigen–IgE produce degranularea mastocitelor cu eliberare de histamină (0,5 p); H1 (Gq) bronșici → bronhoconstricție (0,5 p); H1 (Gq) și H2 (Gs) vasculari → vasodilatație, scăderea TA, creșterea permeabilității (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 4 · c7", "OSPE p.12"] },
+     { q: "Care este tratamentul de primă linie și prin ce receptori acționează?", ans: "Adrenalină i.m. (0,5 p); agonist α1 (Gq) vascular → vasoconstricție (0,5 p); agonist β2 (Gs) bronșic → bronhodilatație (0,5 p).", acc: "Doza 0,01 mg/kg, maximum 0,5 mg, nu e obligatorie.", p: [0, 0.5, 1.5], src: ["LP 4 · c7", "OSPE p.12"] }
+    ]}
+ ],
+ bonus: { q: "Explicați mecanismul prin care histamina produce vasodilatație prin receptorii H1 endoteliali.", ans: "H1 (Gq) endotelial → ↑ PLC → ↑ IP3 + DAG → ↑ Ca²⁺ → ↑ NO-sintaza → NO difuzează în celula musculară netedă → ↑ guanilat-ciclaza → ↑ GMPc → vasodilatație.", src: ["OSPE p.17", "OSPE p.10"] }
+},
+{
+ id: 8, titlu: "Prim pasaj hepatic · agonist α2 ocular · alergie tip IV",
+ subiecte: [
+  { dom: "FC", stem: "O substanță lipofilă are biodisponibilitatea orală de 1%, iar administrată sublingual are biodisponibilitatea de aproape 100%.",
+    items: [
+     { q: "Explicați diferența dintre cele două căi de administrare.", ans: "Per os, substanța trece prin sistemul port și este metabolizată, inactivată în ficat înainte de distribuție – efectul primului pasaj hepatic (1 p); sublingual se absoarbe prin mucoasa bucală și ocolește filtrul hepatic (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 1 · Efectul primului pasaj", "OSPE p.1"] },
+     { q: "Ce biodisponibilitate are o substanță administrată i.v. și de ce?", ans: "100%, deoarece este introdusă direct în circulația sanguină (0,5 p).", acc: "", p: [0, null, 0.5], src: ["OSPE p.1"] },
+     { q: "Cum se calculează biodisponibilitatea absolută?", ans: "Bd abs = AUC p.o. / AUC i.v. × 100 (0,5 p).", acc: "„aria de sub curbă oral raportată la i.v.”.", p: [0, null, 0.5], src: ["LP 1 · Biodisponibilitatea"] }
+    ]},
+  { dom: "FD", stem: "Un pacient cu presiune intraoculară crescută folosește picături oftalmice cu o substanță cu afinitate pentru receptorii α2 cuplați cu proteine Gi și cu activitate intrinsecă.",
+    items: [
+     { q: "Ce tip de ligand este substanța?", ans: "Agonist (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 3 · c7.5"] },
+     { q: "Ce fel de receptori sunt receptorii α2 (localizare la nivelul celulei, cuplare)?", ans: "Receptori membranari (0,5 p), cuplați cu proteine Gi (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 3 · tabel Rp adrenergici", "OSPE p.8"] },
+     { q: "Ce efect are asupra presiunii intraoculare și cum se realizează?", ans: "Scade presiunea intraoculară (0,5 p); postsinaptic scade AMPc și secreția de umoare apoasă (1 p); presinaptic scade eliberarea de noradrenalină și previne midriaza (0,5 p).", acc: "", p: [0, 1, 2], src: ["LP 3 · c7.5"] },
+     { q: "Ce efect ar avea asupra tensiunii arteriale dacă s-ar absorbi sistemic? Explicați.", ans: "Scade eliberarea de noradrenalină prin feed-back negativ presinaptic (0,5 p) → scade influența simpatică asupra vaselor și cordului → scade TA (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.15", "LP 3 · tabel Rp adrenergici"] }
+    ]},
+  { dom: "FT", stem: "După câteva săptămâni de utilizare a picăturilor, pacientul prezintă o dermatită de contact la nivelul pleoapelor.",
+    items: [
+     { q: "Ce tip de reacție alergică este (după clasificarea în patru tipuri)?", ans: "Tip IV, întârziată, mediată celular (1 p).", acc: "", p: [0, null, 1], src: ["OSPE p.12"] },
+     { q: "Ce celule o mediază?", ans: "Limfocitele T sensibilizate (0,5 p).", acc: "", p: [0, null, 0.5], src: ["OSPE p.12"] },
+     { q: "Este o reacție dependentă de doză?", ans: "Nu, reacțiile alergice sunt independente de doză (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 4 · Reacții adverse", "OSPE p.12"] }
+    ]}
+ ],
+ bonus: { q: "Explicați mecanismul molecular prin care substanța scade secreția de umoare apoasă.", ans: "Stimulare α2 (Gi) → αi inhibă adenilat-ciclaza → ↓ AMPc → scade secreția de umoare apoasă.", src: ["LP 3 · c7.5", "OSPE p.8"] }
+},
+{
+ id: 9, titlu: "Inhibitor enzimatic · placa motorie · apnee idiosincrazică",
+ subiecte: [
+  { dom: "FC", stem: "Un pacient folosește în doză maximă un hipolipemiant metabolizat de CYP3A4, care poate produce toxicitate musculară (miozită, rabdomioliză). Pentru o infecție, medicul ia în calcul un antibiotic cu acțiune inhibitoare enzimatică pe CYP3A4.",
+    items: [
+     { q: "Ce consecințe poate avea asocierea?", ans: "Hipolipemiantul este metabolizat mai lent (0,5 p) → crește concentrația lui plasmatică (0,5 p) → risc de toxicitate musculară la doze terapeutice (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 2 · c3", "OSPE p.4"] },
+     { q: "Ce măsuri se pot lua?", ans: "Scăderea dozei hipolipemiantului (0,5 p) sau evitarea asocierii, cu folosirea unei alternative (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 2 · Consecințe inhibitor"] }
+    ]},
+  { dom: "FD", stem: "Acetilcolina eliberată în fanta sinaptică stimulează receptorii nicotinici N2 din placa motorie.",
+    items: [
+     { q: "Cu ce tip de structură efectoare sunt cuplați receptorii N2 și ce efect are stimularea lor?", ans: "Canale ionice de Na⁺ (0,5 p); contracția musculaturii striate (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · c2", "OSPE p.8"] },
+     { q: "Descrieți secvența de evenimente de la legarea acetilcolinei până la contracție.", ans: "Deschiderea canalului → influx de Na⁺ → depolarizare → deschiderea canalelor de Na⁺ voltaj-dependente → potențial de acțiune propagat → contracția fibrei (1 p).", acc: "Secvența incompletă, cu influx de Na⁺ și depolarizare = 0,5 p.", p: [0, 0.5, 1], src: ["LP 4 · c2"] },
+     { q: "Cum ar putea fi prelungit efectul acetilcolinei?", ans: "Prin inhibarea acetilcolinesterazei (0,5 p): acetilcolina este descompusă mai lent și rămâne mai mult timp în fanta sinaptică (0,5 p).", acc: "„inhibitori de colinesterază”, „parasimpatomimetice indirecte”.", p: [0, 0.5, 1], src: ["LP 4 · c2.2"] },
+     { q: "Cum pot fi influențați receptorii N2 pentru a obține relaxare musculară în chirurgie?", ans: "Blocante neuromusculare, miorelaxante periferice, curarizante (0,5 p): antidepolarizante și depolarizante (antirepolarizante) (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · c2.3"] }
+    ]},
+  { dom: "FT", stem: "Pentru o intervenție scurtă, unui pacient i se administrează un miorelaxant depolarizant, ester al colinei, metabolizat rapid de pseudocolinesterază. La sfârșitul intervenției, apneea persistă mult peste durata obișnuită.",
+    items: [
+     { q: "Explicați fenomenul.", ans: "Deficit de pseudocolinesterază (0,5 p) → miorelaxantul este metabolizat lent și se elimină greu (0,5 p) → relaxare prelungită, inclusiv a diafragmei, chiar la doze terapeutice (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 4 · c6.2", "OSPE p.12–13"] },
+     { q: "Ce tip de reacție adversă este?", ans: "Reacție de tip idiosincrazic, intoleranță înnăscută, condiționată genetic (0,5 p), independentă de doză (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · Reacții adverse", "OSPE p.12"] }
+    ]}
+ ],
+ bonus: { q: "Explicați de ce un miorelaxant depolarizant produce întâi contracții și apoi relaxare.", ans: "Faza I: se leagă de N2, deschide canalul de Na⁺ → depolarizare → contracții fasciculare scurte. Faza II: rămâne legat de receptor, care nu mai poate fi stimulat → membrana rămâne inexcitabilă → relaxarea musculaturii striate.", src: ["OSPE p.12–13"] }
+},
+{
+ id: 10, titlu: "Chelare cu calciu · receptor intracelular · autoinducție",
+ subiecte: [
+  { dom: "FC", stem: "O pacientă cu hipotiroidie folosește cronic, per os, un substituent al hormonului tiroidian. De câteva zile simptomele s-au agravat (bradicardie, somnolență, intoleranță la frig). A început din proprie inițiativă un supliment cu calciu, pe care îl ia simultan cu tratamentul, dimineața.",
+    items: [
+     { q: "Explicați agravarea simptomatologiei.", ans: "Calciul se leagă de substanța activă (0,5 p) → scade absorbția ei (0,5 p) → scade efectul (0,5 p).", acc: "„formează complecși neabsorbabili”, „scade biodisponibilitatea”.", p: [0, 0.5, 1.5], src: ["LP 1 · c3"] },
+     { q: "Cum poate fi consiliată pacienta?", ans: "Administrare pe stomacul gol, cu cel puțin o jumătate de oră înainte de micul dejun (0,5 p), la cel puțin 2 ore distanță de alte medicamente sau suplimente, mai ales cele cu calciu, fier sau aluminiu (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 1 · c3"] }
+    ]},
+  { dom: "FD", stem: "O substanță cu lipofilie crescută, cu afinitate pentru receptori intracitoplasmatici și cu activitate intrinsecă, are efect antiinflamator.",
+    items: [
+     { q: "Ce tip de receptori sunt aceștia și de ce lipofilia este obligatorie?", ans: "Receptori intracelulari, nemembranari, de tipul celor pentru hormoni steroizi (0,5 p); doar substanțele lipofile traversează membrana pentru a ajunge la receptor (0,5 p).", acc: "„receptori nucleari”.", p: [0, 0.5, 1], src: ["LP 4 · c7", "OSPE p.9"] },
+     { q: "Descrieți mecanismul prin care se produce efectul antiinflamator.", ans: "Complexul hormon–receptor pătrunde în nucleu și se leagă de elementul de răspuns hormonal (0,5 p) → transcripție, ARNm (0,5 p) → sinteză de anexine (0,5 p) → inhibarea fosfolipazei A2 (0,5 p).", acc: "", p: [0, 1, 2], src: ["OSPE p.9–10", "LP 4 · c7"] },
+     { q: "Ce consecință are inhibarea fosfolipazei A2?", ans: "Nu se mai formează acid arahidonic din fosfolipidele membranare → scade sinteza de prostaglandine pe calea COX (0,5 p) și de leucotriene pe calea LOX (0,5 p).", acc: "„scad mediatorii proinflamatori”.", p: [0, 0.5, 1], src: ["LP 4 · c7", "OSPE p.10"] }
+    ]},
+  { dom: "FT", stem: "La un pacient tratat cronic cu o substanță inductoare enzimatică, concentrațiile plasmatice la 4, 8 și 12 ore sunt 8,65 / 7,42 / 6,32 mg/L la inițierea tratamentului și 6,12 / 4,35 / 3,17 mg/L după 3 săptămâni, la aceeași doză.",
+    items: [
+     { q: "Ce fenomen explică scăderea concentrațiilor și ce tip de toleranță produce?", ans: "Autoinducție enzimatică: substanța își induce propria metabolizare (0,5 p) → toleranță prin mecanism farmacocinetic (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 2 · c2", "OSPE p.13"] },
+     { q: "Prin ce se deosebește toleranța prin mecanism farmacodinamic?", ans: "Se produce prin down-regulation (0,5 p): administrarea continuă a unui agonist duce la internalizarea receptorilor (0,5 p) și la scăderea densității receptoriale, cu scăderea efectului (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 4 · c4", "OSPE p.13"] }
+    ]}
+ ],
+ bonus: { q: "Ce efect au leucotrienele la nivel bronșic, prin ce receptori și cu ce profil temporal?", ans: "Bronhoconstricție prin receptorii CysLT1 (Gq), cu debut lent, dar efect îndelungat.", src: ["LP 4 · c7"] }
+}
+];
+const VARIANTE2 = [
+{
+ id: 11, titlu: "Lipofil la obez · potență · toleranță înnăscută",
+ subiecte: [
+  { dom: "FC", stem: "Un pacient cu IMC 37 urmează tratament cronic cu o substanță lipofilă, a cărei doză a trebuit crescută pe parcursul tratamentului. După un regim drastic de slăbire, se prezintă cu simptome de supradozaj ale aceleiași substanțe.",
+    items: [
+     { q: "De ce a fost necesară creșterea dozei?", ans: "Substanța lipofilă se distribuie în țesutul adipos, cu volum de distribuție crescut (0,75 p); concentrația din sânge este redusă, efectul mai scăzut, deci sunt necesare doze mai mari (0,75 p).", acc: "", p: [0, 0.75, 1.5], src: ["LP 1 · c6", "OSPE p.2"] },
+     { q: "De ce au apărut simptomele de supradozaj după slăbire?", ans: "Substanța acumulată în țesutul adipos se redistribuie și ajunge în sânge (0,5 p) → supradozare (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 1 · c6", "OSPE p.2"] },
+     { q: "Ce etapă farmacocinetică este influențată?", ans: "Distribuția (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 1 · c6"] }
+    ]},
+  { dom: "FD", stem: "Două substanțe din aceeași clasă, A și B, produc același efect terapeutic: A în doză de 50 mg, B în doză de 10 mg.",
+    items: [
+     { q: "Ce parametru farmacodinamic permite ca B să fie administrată în doză mai mică?", ans: "Potența (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 3 · c1", "OSPE p.6"] },
+     { q: "Care substanță este mai potentă și de câte ori?", ans: "B (0,5 p), de 5 ori mai potentă decât A (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.6"] },
+     { q: "Prin ce se deosebește potența de eficacitate?", ans: "Potența: doza necesară pentru a obține un efect de o anumită intensitate (0,5 p). Eficacitatea: intensitatea maximă a efectului pe care îl poate produce substanța (0,5 p).", acc: "Explicarea pe curba doză–efect: deplasare pe orizontală vs. înălțimea platoului.", p: [0, 0.5, 1], src: ["LP 3 · c1", "OSPE p.6"] },
+     { q: "Dacă B ar avea activitate intrinsecă 0 < α < 1, ar putea atinge efectul maxim al mediatorului? Explicați.", ans: "Nu; este agonist parțial și produce efecte de intensitate mai mică decât mediatorul (1 p).", acc: "", p: [0, 0.5, 1], src: ["LP 3 · Interacțiunea ligand-receptor", "OSPE p.7"] }
+    ]},
+  { dom: "FT", stem: "Doi pacienți primesc aceeași substanță: unul răspunde mult mai slab încă de la prima administrare, fără nicio expunere anterioară; celălalt devine treptat mai puțin sensibil după luni de tratament.",
+    items: [
+     { q: "Cum se numește tipul de răspuns al primului pacient?", ans: "Toleranță înnăscută, naturală (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 4 · Reacții adverse", "OSPE p.13"] },
+     { q: "Explicați diferența dintre toleranța înnăscută și cea dobândită.", ans: "Toleranța înnăscută este condiționată genetic, poate depinde de rasă prin garnitura enzimatică diferită (1 p). Toleranța dobândită apare după administrări repetate, cu scăderea treptată a răspunsului, și necesită creșterea dozei (1 p).", acc: "", p: [0, 1, 2], src: ["OSPE p.13"] }
+    ]}
+ ],
+ bonus: { q: "Ce valoare are activitatea intrinsecă pentru un agonist total, un agonist parțial, un antagonist și un agonist invers?", ans: "Agonist total α = 1; agonist parțial 0 < α < 1; antagonist α = 0; agonist invers −1 < α < 0.", src: ["LP 3 · Interacțiunea ligand-receptor", "OSPE p.7"] }
+},
+{
+ id: 12, titlu: "Bioechivalență · receptor tirozin-kinazic · alergie tip II",
+ subiecte: [
+  { dom: "FC", stem: "O companie vrea să pună pe piață un medicament generic, care să poată substitui medicamentul original cu aceeași substanță activă.",
+    items: [
+     { q: "Ce tip de studiu este necesar?", ans: "Studiu de bioechivalență (0,5 p).", acc: "„compararea biodisponibilității generic vs. original”.", p: [0, null, 0.5], src: ["LP 1 · c2"] },
+     { q: "Ce trei parametri ai curbei concentrație plasmatică–timp se compară și ce reprezintă fiecare?", ans: "Cmax – concentrația plasmatică maximă (0,5 p); Tmax – timpul până la atingerea Cmax (0,5 p); AUC – aria de sub curbă, cantitatea totală care ajunge în circulația sistemică (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 1 · c2"] },
+     { q: "Ce risc ar avea un generic cu Cmax mult mai mare decât originalul?", ans: "Se absoarbe prea repede, cu risc de toxicitate (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 1 · c2"] }
+    ]},
+  { dom: "FD", stem: "Un hormon cu structură peptidică se leagă de un receptor care are situsul de legare extracelular și un domeniu intracitoplasmatic cu activitate tirozin-kinazică.",
+    items: [
+     { q: "Ce tip de receptor este acesta?", ans: "Receptor membranar (0,5 p) de tip enzimă, cu activitate protein-kinazică (0,5 p).", acc: "„receptor cuplat cu enzimă”.", p: [0, 0.5, 1], src: ["LP 3 · Receptori enzime", "OSPE p.9"] },
+     { q: "Ce se întâmplă după legarea hormonului și ce efect asupra glicemiei rezultă?", ans: "Fosforilarea resturilor tirozinice (0,5 p) → activarea transportorilor de glucoză GLUT (0,5 p) → glucoza este preluată intracelular, iar glicemia scade (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["OSPE p.9"] },
+     { q: "De ce acest hormon nu poate fi administrat per os?", ans: "Este degradat de proteazele digestive (0,5 p); molecula este prea mare și prea hidrofilă pentru a se absorbi (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 1 · c1"] }
+    ]},
+  { dom: "FT", stem: "După un tratament, un pacient dezvoltă trombocitopenie. Se identifică anticorpi IgG îndreptați împotriva trombocitelor pe care s-a legat medicamentul.",
+    items: [
+     { q: "Ce tip de reacție alergică este?", ans: "Tip II, citotoxică (1 p).", acc: "", p: [0, null, 1], src: ["OSPE p.12"] },
+     { q: "Explicați mecanismul.", ans: "Anticorpii IgG sau IgM interacționează cu antigenele de pe elementele figurate ale sângelui (0,5 p) → se activează complementul și celula este lizată (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.12"] },
+     { q: "Este o reacție dependentă de doză? Când apare?", ans: "Independentă de doză (0,5 p); apare la re-expunerea la medicament (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · c6.3", "OSPE p.12"] }
+    ]}
+ ],
+ bonus: { q: "Ce anticorpi și ce celule sunt implicate într-o reacție alergică de tip I?", ans: "IgE care acoperă suprafața mastocitelor (și bazofilelor); la re-expunere, complexul antigen–anticorp produce degranularea, cu eliberare de histamină.", src: ["LP 4 · c7", "OSPE p.12"] }
+},
+{
+ id: 13, titlu: "Inductor + contraceptiv · antagonist H1 · reactivitate",
+ subiecte: [
+  { dom: "FC", stem: "O pacientă urmează tratament cronic cu un antiepileptic cu acțiune inductoare enzimatică asupra CYP3A4. Ca metodă contraceptivă folosește contraceptive orale, metabolizate de CYP3A4.",
+    items: [
+     { q: "Ce consecință are asocierea?", ans: "Crește expresia CYP3A4 (0,5 p) → contraceptivele sunt metabolizate mai repede (0,5 p) → eficacitatea contraceptivă poate fi compromisă (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 2 · c1", "OSPE p.3"] },
+     { q: "Ce recomandare îi faceți?", ans: "Alte metode contraceptive, de exemplu prezervativ sau sterilet (1 p).", acc: "", p: [0, 0.5, 1], src: ["LP 2 · c1"] }
+    ]},
+  { dom: "FD", stem: "Într-o reacție alergică, histamina eliberată acționează pe receptorii H1 (Gq) din musculatura netedă bronșică. Pacientului i se administrează o substanță cu afinitate pentru receptorii H1, lipsită de activitate intrinsecă.",
+    items: [
+     { q: "Ce efect are histamina asupra bronhiilor?", ans: "Bronhoconstricție (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 4 · c7", "OSPE p.16"] },
+     { q: "Ce tip de ligand este substanța administrată?", ans: "Antagonist (0,5 p).", acc: "„antihistaminic H1-blocant”.", p: [0, null, 0.5], src: ["LP 3 · Interacțiunea ligand-receptor"] },
+     { q: "Ce efect are asupra acțiunii histaminei și pentru ce simptome se folosește în anafilaxie?", ans: "Blochează receptorii H1 și împiedică efectele histaminei mediate de aceștia (0,5 p); ca adjuvant de linia a doua, pentru prurit și urticarie (1 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 4 · c7"] },
+     { q: "Ar împiedica această substanță bronhoconstricția produsă de leucotriene? Argumentați.", ans: "Nu; leucotrienele acționează pe alți receptori, CysLT1 (Gq) (1 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · c7"] }
+    ]},
+  { dom: "FT", stem: "Aceeași doză dintr-un medicament este administrată unui grup mare de pacienți. Câțiva nu răspund aproape deloc, alții au un efect exagerat. Niciunul nu are un deficit enzimatic cunoscut sau alergie.",
+    items: [
+     { q: "Cum se numesc cele două tipuri de răspuns?", ans: "Toleranță, reactivitate scăzută (0,5 p); intoleranță, reactivitate exagerată (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · Reacții adverse"] },
+     { q: "Cum se explică apariția lor în populație?", ans: "Sunt extremele distribuției normale gaussiene a reactivității (1 p).", acc: "", p: [0, null, 1], src: ["LP 4 · Reacții adverse"] },
+     { q: "Prin ce se deosebesc de o reacție idiosincrazică?", ans: "Reacția idiosincrazică are condiționare genetică, printr-un deficit enzimatic înnăscut (1 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · Reacții adverse", "OSPE p.12"] }
+    ]}
+ ],
+ bonus: { q: "Explicați mecanismul molecular al bronhoconstricției produse de histamină.", ans: "H1 (Gq) → ↑ PLC → ↑ IP3 + DAG → ↑ Ca²⁺ → bronhoconstricție.", src: ["OSPE p.16"] }
+},
+{
+ id: 14, titlu: "Stare de echilibru · antagonist M2 · efect teratogen",
+ subiecte: [
+  { dom: "FC", stem: "Un medicament folosit în tratament cronic are timpul de înjumătățire de 24 de ore și se elimină după o cinetică de ordinul I.",
+    items: [
+     { q: "După cât timp se atinge concentrația plasmatică de echilibru (steady-state)?", ans: "După 4–7 t1/2 (0,5 p), adică 4–7 zile (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.4", "OSPE p.6"] },
+     { q: "Cum se poate atinge mai repede o concentrație în domeniul terapeutic?", ans: "Doză de atac (0,5 p), urmată de doze de întreținere (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.6"] },
+     { q: "Ce cale de administrare permite atingerea rapidă și menținerea concentrației prin reglarea debitului?", ans: "Perfuzia intravenoasă (0,5 p).", acc: "", p: [0, null, 0.5], src: ["OSPE p.6"] },
+     { q: "De câte ori pe zi se administrează?", ans: "O dată pe zi, intervalul dintre doze fiind 1–2 t1/2 (0,5 p).", acc: "„1/zi”.", p: [0, null, 0.5], src: ["LP 2 · c6", "OSPE p.6"] }
+    ]},
+  { dom: "FD", stem: "Unui pacient cu bradicardie i se administrează o substanță cu afinitate pentru receptorii muscarinici M2 (Gi) din nodul sinusal, lipsită de activitate intrinsecă.",
+    items: [
+     { q: "Ce tip de ligand este substanța?", ans: "Antagonist (0,5 p).", acc: "„parasimpatolitic”.", p: [0, null, 0.5], src: ["OSPE p.15"] },
+     { q: "Explicați cum acționează acetilcolina pe acești receptori.", ans: "Stimularea M2 (Gi) deschide canalele de K⁺ (0,5 p) → hiperpolarizare membranară (0,5 p) → scade frecvența cardiacă, efect cronotrop negativ (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["OSPE p.15"] },
+     { q: "Ce efect are substanța și de ce este utilă aici?", ans: "Crește frecvența cardiacă, efect vagolitic (0,5 p); corectează bradicardia (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.15", "LP 3 · tabel Rp colinergici"] }
+    ]},
+  { dom: "FT", stem: "O substanță administrată în timpul sarcinii produce malformații fetale.",
+    items: [
+     { q: "Încadrați reacția adversă.", ans: "Efect toxic (0,5 p), teratogen (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · Reacții adverse"] },
+     { q: "Ce caracterizează efectele toxice?", ans: "Mecanism toxic direct, cu afectarea unui organ sau sistem (0,5 p); sunt dependente de doză (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · Reacții adverse"] },
+     { q: "Numiți alte două tipuri de efecte toxice.", ans: "Oricare două, câte 0,5 p: afectare SNC, afectare hepatică, efecte mutagene, efecte carcinogene.", acc: "", p: [0, 0.5, 1], n: 2, src: ["LP 4 · Reacții adverse"] }
+    ]}
+ ],
+ bonus: { q: "Explicați de ce substanța din subiectul 2 crește frecvența cardiacă.", ans: "Blochează M2 (Gi) → acetilcolina nu mai deschide canalele de K⁺ → nu se produce hiperpolarizarea → dispare efectul cronotrop negativ vagal, frecvența crește.", src: ["OSPE p.15"] }
+},
+{
+ id: 15, titlu: "Cinetică de ordinul 0 · agonist M3 ocular · idiosincrazie",
+ subiecte: [
+  { dom: "FC", stem: "Un medicament realizează o concentrație plasmatică inițială de 200 ng/mL. După 1, 2 și 3 ore, concentrațiile sunt 180, 160 și 140 ng/mL.",
+    items: [
+     { q: "Ce tip de cinetică de eliminare urmează?", ans: "Cinetică de ordinul 0 (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 2 · c7", "OSPE p.4"] },
+     { q: "Argumentați.", ans: "Se elimină o cantitate constantă în unitatea de timp, 20 ng/mL pe oră, independent de concentrația plasmatică; scăderea este liniară (1 p).", acc: "", p: [0, 0.5, 1], src: ["LP 2 · Tipuri de cinetică", "OSPE p.4"] },
+     { q: "Se poate estima timpul de eliminare completă pe baza t1/2? De ce?", ans: "Nu (0,5 p), deoarece la cinetica de ordinul 0 timpul de înjumătățire variază (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 2 · Tipuri de cinetică", "OSPE p.4"] },
+     { q: "Ce caracterizează, prin contrast, cinetica de ordinul I?", ans: "Cantitatea eliminată variază proporțional cu concentrația plasmatică, iar t1/2 este constant (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 2 · Tipuri de cinetică"] }
+    ]},
+  { dom: "FD", stem: "Unui pacient cu glaucom cu unghi deschis i se instilează în sacul conjunctival o substanță cu afinitate pentru receptorii M3 (Gq) și cu activitate intrinsecă.",
+    items: [
+     { q: "Ce efect are asupra pupilei și prin contracția cărui mușchi?", ans: "Mioză (0,5 p), prin contracția mușchiului circular al irisului, sfincterul pupilei (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 3 · c7", "OSPE p.16"] },
+     { q: "Ce efect are asupra presiunii intraoculare și prin ce mecanism?", ans: "Scade presiunea intraoculară (0,5 p); contracția mușchiului circular și a mușchiului ciliar (0,5 p) lărgește spațiile Fontana și canalul Schlemm, crescând scurgerea umorii apoase prin rețeaua trabeculară (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 3 · c7.4", "LP 3 · tabel Rp colinergici"] },
+     { q: "Ce efect are asupra acomodării?", ans: "Spasm de acomodare la vederea de aproape (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 3 · tabel Rp colinergici"] },
+     { q: "Prin ce alt mecanism, care crește scurgerea uveosclerală, se poate scădea presiunea intraoculară?", ans: "Stimularea receptorilor prostaglandinici F (Gq) (0,5 p) → activarea metaloproteinazelor, care degradează colagenul și lărgesc spațiile dintre fibrele mușchiului ciliar (0,5 p).", acc: "„analogi de prostaglandine”.", p: [0, 0.5, 1], src: ["LP 3 · c7.5"] }
+    ]},
+  { dom: "FT", stem: "Un pacient tolerează foarte prost chiar cantități mici de alcool, din cauza unui deficit înnăscut de alcool-dehidrogenază.",
+    items: [
+     { q: "Ce tip de reacție este?", ans: "Reacție de tip idiosincrazic (0,5 p), intoleranță înnăscută condiționată genetic (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · c6.2", "LP 4 · Reacții adverse"] },
+     { q: "Este dependentă de doză?", ans: "Nu, este independentă de doză (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 4 · c6.3"] },
+     { q: "Dați un alt exemplu de reacție idiosincrazică.", ans: "Acatalazia sau apneea toxică la miorelaxantul depolarizant, prin deficit de pseudocolinesterază (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 4 · c6"] }
+    ]}
+ ],
+ bonus: { q: "Explicați mecanismul molecular al miozei.", ans: "Stimulare M3 (Gq) → ↑ PLC → PIP2 → IP3 + DAG → ↑ Ca²⁺ → contracția mușchiului circular al irisului → mioză.", src: ["LP 3 · c7", "OSPE p.16"] }
+},
+{
+ id: 16, titlu: "Insuficiență renală · agonist β1 · sensibilizare alergică",
+ subiecte: [
+  { dom: "FC", stem: "Un medicament se elimină predominant renal și se leagă în proporție mare de proteinele plasmatice. Se administrează la un pacient cu insuficiență renală, în doza obișnuită.",
+    items: [
+     { q: "Cum sunt influențate eliminarea renală, clearance-ul și timpul de înjumătățire?", ans: "Eliminarea renală scade (0,5 p); clearance-ul scade (0,5 p); timpul de înjumătățire crește (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["LP 2 · c7"] },
+     { q: "Ce risc apare la doza obișnuită?", ans: "Acumulare, cu risc de supradozare și toxicitate (1 p).", acc: "", p: [0, 0.5, 1], src: ["LP 2 · c7", "OSPE p.5"] },
+     { q: "Cum influențează legarea de proteinele plasmatice timpul de înjumătățire?", ans: "Îl crește (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 2 · c7"] }
+    ]},
+  { dom: "FD", stem: "Se administrează o substanță cu afinitate pentru receptorii β1 (Gs) din cord și din aparatul juxtaglomerular și cu activitate intrinsecă.",
+    items: [
+     { q: "Ce tip de ligand este substanța?", ans: "Agonist (0,5 p).", acc: "„simpatomimetic β-stimulator”.", p: [0, null, 0.5], src: ["OSPE p.14"] },
+     { q: "Ce efecte cardiace produce?", ans: "Crește forța de contracție (0,5 p) și frecvența cardiacă (0,5 p).", acc: "„cardiostimulare”, „efecte trop-pozitive”.", p: [0, 0.5, 1], src: ["LP 3 · c4", "OSPE p.14"] },
+     { q: "Ce efect are la nivelul aparatului juxtaglomerular și cum influențează tensiunea arterială?", ans: "Crește secreția de renină (0,5 p) → angiotensina II produce vasoconstricție și retenție hidrosalină → crește TA (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.14"] },
+     { q: "Explicați cum crește frecvența cardiacă la nivelul nodului sinusal.", ans: "↑ AMPc → activarea canalelor HCN → influx de Na⁺ → depolarizare → crește numărul de impulsuri pe minut (1 p).", acc: "Secvența fără canalele HCN = 0,5 p.", p: [0, 0.5, 1], src: ["LP 3 · c4", "OSPE p.14"] }
+    ]},
+  { dom: "FT", stem: "Un pacient a primit un antibiotic acum un an, fără nicio reacție. Acum, la o nouă cură cu același antibiotic, face o reacție alergică imediată.",
+    items: [
+     { q: "De ce nu a reacționat la prima expunere?", ans: "Prima expunere a produs sensibilizarea: sinteza de IgE, care acoperă suprafața mastocitelor (1 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · c7", "OSPE p.12"] },
+     { q: "Ce se întâmplă la re-expunere?", ans: "Reacția antigen–anticorp produce degranularea mastocitelor, cu eliberare de histamină și alți mediatori (1 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · c7", "OSPE p.12"] },
+     { q: "Este o reacție dependentă de doză?", ans: "Nu, este independentă de doză (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 4 · c6.3"] }
+    ]}
+ ],
+ bonus: { q: "Explicați mecanismul molecular al creșterii forței de contracție.", ans: "β1 (Gs) → ↑ adenilat-ciclaza → ↑ AMPc → ↑ protein-kinaza A → deschiderea canalelor de Ca²⁺ tip L → influx de Ca²⁺ → eliberare de Ca²⁺ din reticulul sarcoplasmatic → ↑ Ca²⁺ intracelular → crește contracția.", src: ["LP 3 · c4", "OSPE p.14"] }
+},
+{
+ id: 17, titlu: "Proteine de legare · oxid nitric · mecanisme de toleranță",
+ subiecte: [
+  { dom: "FC", stem: "O substanță circulă în sânge legată în principal de globulina care leagă hormonii sexuali (SHBG). Pacientul începe un tratament cu androgeni, care scad nivelul SHBG.",
+    items: [
+     { q: "Ce se întâmplă cu fracția liberă a substanței? De ce?", ans: "Crește (0,5 p), deoarece scade proteina care o leagă în mod normal (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 1 · Proteine de legare"] },
+     { q: "Ce consecință are asupra efectului?", ans: "Efectul crește (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 1 · c7"] },
+     { q: "Numiți două alte situații care scad nivelul proteinelor de legare.", ans: "Oricare două, câte 0,5 p: afecțiuni hepatice (ciroză, insuficiență hepatică), cașexie, boală cronică renală.", acc: "", p: [0, 0.5, 1], n: 2, src: ["LP 1 · Proteine de legare", "OSPE p.1"] },
+     { q: "De ce numai fracția liberă își exercită efectul?", ans: "Doar fracția nelegată poate traversa membranele biologice (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 1 · De reținut", "OSPE p.1"] }
+    ]},
+  { dom: "FD", stem: "Celulele endoteliale sintetizează din arginină, sub acțiunea unei sintaze, o moleculă mică, cu lipofilie crescută, care difuzează în celulele musculare netede vasculare.",
+    items: [
+     { q: "Ce moleculă este și de ce poate traversa membranele?", ans: "Oxidul nitric, NO, factor relaxant derivat din endoteliu (0,5 p); are lipofilie crescută (0,5 p).", acc: "„EDRF”.", p: [0, 0.5, 1], src: ["OSPE p.10"] },
+     { q: "Ce structură receptoare activează în celula musculară netedă?", ans: "Guanilat-ciclaza solubilă, intracitoplasmatică (1 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.10"] },
+     { q: "Ce mesager secund se formează și ce efect are?", ans: "GMP ciclic (0,5 p) → împiedică glisarea filamentelor de actină și miozină, relaxare, vasodilatație (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.10"] },
+     { q: "Comparați efectul creșterii AMPc asupra musculaturii netede și asupra musculaturii cardiace.", ans: "Relaxare în musculatura netedă (0,5 p); contracție în musculatura cardiacă (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.10"] }
+    ]},
+  { dom: "FT", stem: "După câteva luni de tratament cronic, efectul unui medicament scade la aceeași doză.",
+    items: [
+     { q: "Numiți două mecanisme farmacocinetice prin care poate apărea toleranța.", ans: "Oricare două, câte 0,5 p: scăderea ratei de absorbție, creșterea ratei de metabolizare (inclusiv autoinducție), creșterea ratei de eliminare.", acc: "", p: [0, 0.5, 1], n: 2, src: ["OSPE p.13"] },
+     { q: "Numiți și explicați un mecanism farmacodinamic.", ans: "Down-regulation: administrarea continuă a unui agonist scade densitatea receptorială (1 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · c4", "OSPE p.13"] }
+    ]}
+ ],
+ bonus: { q: "Pe ce altă cale, în afara stimulării adenilat-ciclazei, poate crește AMPc intracelular?", ans: "Prin inhibarea fosfodiesterazei, enzima care inactivează AMPc la 5′AMP.", src: ["OSPE p.10"] }
+},
+{
+ id: 18, titlu: "Bază slabă în urină alcalină · agonist α1 ocular · alergie tip III",
+ subiecte: [
+  { dom: "FC", stem: "Un pacient folosește o substanță cu caracter slab bazic, excretată renal și reabsorbită tubular. I se asociază un medicament care alcalinizează urina.",
+    items: [
+     { q: "În ce formă se va afla substanța în urina alcalină?", ans: "Predominant neionizată (0,5 p), nepolară, lipofilă (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 2 · Influența pH-ului urinar", "OSPE p.5"] },
+     { q: "Ce consecință are asupra efectului?", ans: "Crește reabsorbția tubulară (0,5 p) → efectul crește, uneori până la efecte toxice (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.5"] },
+     { q: "În ce segment al nefronului are loc reabsorbția și de ce doar forma neionizată se reabsoarbe?", ans: "Tubul contort distal (0,5 p); forma neionizată, lipofilă, difuzează pasiv înapoi în capilarele peritubulare, iar forma ionizată, hidrofilă, rămâne în urină (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 2 · Excreția"] }
+    ]},
+  { dom: "FD", stem: "La un iepure se instilează în sacul conjunctival o substanță cu afinitate pentru receptorii α1 (Gq) și cu activitate intrinsecă.",
+    items: [
+     { q: "Ce tip de ligand este substanța?", ans: "Agonist (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 3 · c7"] },
+     { q: "Ce efect are asupra pupilei și prin ce mușchi?", ans: "Midriază activă (0,5 p), prin contracția mușchiului radial al irisului (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 3 · c7", "OSPE p.16"] },
+     { q: "În ce scop diagnostic este utilă midriaza?", ans: "Examenul fundului de ochi (0,5 p).", acc: "", p: [0, null, 0.5], src: ["OSPE p.16"] },
+     { q: "Prin ce se deosebește de midriaza produsă de un antagonist muscarinic?", ans: "Antagonistul muscarinic produce midriază pasivă, prin relaxarea mușchiului circular (0,5 p), și crește presiunea intraoculară (0,5 p).", acc: "„cicloplegie” pentru a doua noțiune.", p: [0, 0.5, 1], src: ["LP 3 · c7", "OSPE p.16"] },
+     { q: "Ce efect ar avea aplicată pe mucoasa nazală?", ans: "Vasoconstricție, decongestionarea mucoasei (0,5 p).", acc: "", p: [0, null, 0.5], src: ["OSPE p.16"] }
+    ]},
+  { dom: "FT", stem: "La câteva zile după un tratament, un pacient prezintă urticarie, artralgii și semne de glomerulonefrită.",
+    items: [
+     { q: "Ce tip de reacție alergică este?", ans: "Tip III, prin complexe imune (1 p).", acc: "", p: [0, null, 1], src: ["OSPE p.12"] },
+     { q: "Explicați mecanismul.", ans: "Antigenele și anticorpii IgG formează complexe circulante (0,5 p), care se depun în vasele mici (0,5 p), activează complementul și produc inflamație (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["OSPE p.12"] }
+    ]}
+ ],
+ bonus: { q: "Explicați mecanismul molecular al midriazei active.", ans: "α1 (Gq) → ↑ PLC → ↑ IP3 + DAG → ↑ Ca²⁺ intracelular → contracția mușchiului radial al irisului → midriază.", src: ["LP 3 · c7", "OSPE p.16"] }
+},
+{
+ id: 19, titlu: "Bariera hematoencefalică · tipuri de antagoniști · toleranță la opioide",
+ subiecte: [
+  { dom: "FC", stem: "Un pacient cu boala Parkinson primește un precursor care, prin decarboxilare, se transformă în dopamină. I se asociază un inhibitor al decarboxilazei, ca să se evite efectele periferice ale dopaminei.",
+    items: [
+     { q: "De ce se administrează precursorul și nu dopamina însăși?", ans: "Precursorul traversează bariera hematoencefalică (0,5 p), dopamina nu (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 1 · c4"] },
+     { q: "De ce inhibitorul nu împiedică formarea dopaminei și în creier?", ans: "Inhibitorul nu traversează bariera hematoencefalică (0,5 p), deci blochează conversia doar la periferie (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 1 · c4"] },
+     { q: "Numiți două proprietăți care permit unei substanțe să traverseze membranele.", ans: "Oricare două, câte 0,5 p: liposolubilă, neionizată, nelegată de proteine.", acc: "", p: [0, 0.5, 1], n: 2, src: ["LP 1 · De reținut"] }
+    ]},
+  { dom: "FD", stem: "Substanțele X și Y blochează același receptor. X se leagă de situsul activ și concurează cu mediatorul. Y se leagă de un alt situs și blochează steric situsul mediatorului. O a treia substanță, Z, reduce activitatea receptorului sub nivelul bazal.",
+    items: [
+     { q: "Ce tip de antagonist este fiecare dintre X și Y?", ans: "X – antagonist competitiv (0,5 p); Y – antagonist necompetitiv (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 3 · Interacțiunea ligand-receptor", "OSPE p.7"] },
+     { q: "Ce activitate intrinsecă au X și Y?", ans: "α = 0 (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 3 · Interacțiunea ligand-receptor"] },
+     { q: "Ce tip de ligand este Z și cum acționează?", ans: "Agonist invers (0,5 p); reduce activitatea constitutivă a receptorului, stabilizând conformația inactivă (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.7"] },
+     { q: "Ce efect are un antagonist asupra activității constitutive a receptorului, spre deosebire de Z?", ans: "Blochează agonistul fără să modifice activitatea constitutivă (1 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.7"] }
+    ]},
+  { dom: "FT", stem: "O persoană folosește repetat un agonist al receptorilor opioizi și are nevoie de doze tot mai mari pentru același efect. Când consumul se oprește brusc, apar simptome opuse celor produse de substanță.",
+    items: [
+     { q: "Ce fenomen explică nevoia de doze crescute și prin ce mecanism?", ans: "Toleranță prin mecanism farmacodinamic (0,5 p): stimularea excesivă a receptorilor produce down-regulation (1 p).", acc: "", p: [0, 0.5, 1.5], src: ["OSPE p.13"] },
+     { q: "Cum se numesc simptomele de la întrerupere și ce tip de dependență indică?", ans: "Sindrom de abstinență (0,5 p), dependență fizică (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · Reacții adverse", "OSPE p.13"] }
+    ]}
+ ],
+ bonus: { q: "Descrieți activarea proteinei G după legarea agonistului de receptor.", ans: "În stare inactivă proteina G leagă GDP; după legarea agonistului schimbă GDP cu GTP, iar subunitatea α se disociază de βγ și influențează efectorul (adenilat-ciclază, fosfolipază C sau canal ionic), cu formarea de mesageri secunzi.", src: ["OSPE p.8", "LP 3 · c3"] }
+},
+{
+ id: 20, titlu: "Deplasare de pe albumină · agonist β2 sistemic · reacții independente de doză",
+ subiecte: [
+  { dom: "FC", stem: "Un pacient tratat cu un anticoagulant oral, legat de proteinele plasmatice în proporție de peste 90%, primește pentru dureri articulare un antiinflamator care se leagă de aceleași situsuri, tot peste 90%.",
+    items: [
+     { q: "Explicați interacțiunea.", ans: "Antiinflamatorul ocupă situsurile de legare ale anticoagulantului (0,5 p) → crește fracția liberă a anticoagulantului (0,5 p) → supradozare relativă, deși doza este corectă (0,5 p).", acc: "", p: [0, 0.5, 1.5], src: ["OSPE p.1", "LP 1 · c7"] },
+     { q: "Ce risc clinic apare?", ans: "Risc de sângerare (0,5 p).", acc: "", p: [0, null, 0.5], src: ["OSPE p.1"] },
+     { q: "Ce stare patologică ar crește acest risc chiar fără antiinflamator?", ans: "Hipoalbuminemia (0,5 p).", acc: "„cașexie, insuficiență hepatică sau renală”.", p: [0, null, 0.5], src: ["OSPE p.1"] }
+    ]},
+  { dom: "FD", stem: "O substanță cu afinitate pentru receptorii β2 și cu activitate intrinsecă se administrează sistemic.",
+    items: [
+     { q: "Ce efect are asupra vaselor de sânge?", ans: "Vasodilatație (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 3 · tabel Rp adrenergici", "OSPE p.15"] },
+     { q: "Ce efect are asupra glicemiei și prin ce mecanism?", ans: "Glicogenoliză în ficat și mușchi striați (0,5 p) → hiperglicemie (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 3 · tabel Rp adrenergici"] },
+     { q: "Ce efect are pe receptorii β2 presinaptici?", ans: "Stimulează eliberarea de noradrenalină prin feed-back pozitiv (1 p).", acc: "", p: [0, 0.5, 1], src: ["LP 3 · tabel Rp adrenergici"] },
+     { q: "Cu ce proteină G sunt cuplați receptorii β2 și ce enzimă influențează?", ans: "Gs (0,5 p); stimulează adenilat-ciclaza (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["OSPE p.8", "OSPE p.15"] }
+    ]},
+  { dom: "FT", stem: "Pacientul de la subiectul 2 dezvoltă hiperglicemie, mai accentuată la doze mari.",
+    items: [
+     { q: "Ce tip de reacție adversă este? Argumentați.", ans: "Efect secundar (0,5 p): neintenționat, dependent de mecanismul de acțiune (0,5 p).", acc: "", p: [0, 0.5, 1], src: ["LP 4 · Reacții adverse"] },
+     { q: "Este dependentă de doză?", ans: "Da (0,5 p).", acc: "", p: [0, null, 0.5], src: ["LP 4 · Reacții adverse"] },
+     { q: "Numiți trei tipuri de reacții adverse independente de doză.", ans: "Câte 0,5 p: toleranța înnăscută (reactivitate scăzută, idiosincrazie); intoleranța înnăscută (idiosincrazie); intoleranța dobândită (alergie).", acc: "„reacții idiosincrazice”, „reacții alergice”, „extremele distribuției gaussiene”.", p: [0, 0.5, 1.5], n: 3, src: ["LP 4 · Reacții adverse"] }
+    ]}
+ ],
+ bonus: { q: "Ce efect are stimularea receptorilor β3 (Gs) din adipocite și din vezica urinară?", ans: "Lipoliză în adipocite; relaxarea musculaturii netede a vezicii urinare.", src: ["LP 3 · tabel Rp adrenergici"] }
+}
+];
+
+VARIANTE.push(...VARIANTE2);
+
+
+</script>
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const app=$("#app");
+const fmt=x=>String(x).replace(".",",");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ptsHtml=s=>esc(s).replace(/\((\d+(?:,\d+)?) p\)/g,'<b class="pt">($1 p)</b>');
+const LET="abcdefgh";
+const DOM={FC:"Farmacocinetică",FD:"Farmacodinamie",FT:"Farmacotoxicologie"};
+const subMax=s=>s.items.reduce((a,i)=>a+i.p[2],0);
+const domPts=v=>{const d={FC:0,FD:0,FT:0};v.subiecte.forEach(s=>d[s.dom]+=subMax(s));return d};
+const srcChip=t=>`<span class="src-k${t.startsWith("OSPE")?" o":""}">${esc(t)}</span>`;
+
+/* stare per cititor: răspunsuri scrise și autoevaluare */
+let store={ans:{},sc:{}};
+try{const r=localStorage.getItem("ospe-farma-v1");if(r)store=Object.assign(store,JSON.parse(r))}catch(e){}
+const save=()=>{try{localStorage.setItem("ospe-farma-v1",JSON.stringify(store))}catch(e){}};
+
+/* cronometru (7 minute, ca la examen) */
+const T={left:420,run:false,id:null,v:null};
+function tStr(){const m=Math.floor(T.left/60),s=T.left%60;return m+":"+String(s).padStart(2,"0")}
+function tPaint(){const b=$("#tbtn");if(!b)return;
+ b.classList.toggle("low",T.left<=60&&T.left>0);b.classList.toggle("out",T.left===0);
+ b.querySelector(".tv").textContent=T.left===0?"timp expirat":tStr();
+ b.querySelector(".tl").textContent=T.left===0?"":T.run?"Pauză":(T.left<420?"Reia":"Pornește");
+ const r=$("#treset");if(r)r.hidden=T.left===420&&!T.run}
+function tToggle(){if(T.left===0)return;T.run=!T.run;
+ if(T.run){T.id=setInterval(()=>{T.left=Math.max(0,T.left-1);if(T.left===0){clearInterval(T.id);T.run=false}tPaint()},1000)}
+ else clearInterval(T.id);tPaint()}
+function tReset(){clearInterval(T.id);T.run=false;T.left=420;tPaint()}
+
+/* rute: #v3 (fișă), #v3-barem, #matrice, #tipar */
+function route(){const h=location.hash.slice(1);
+ let m=h.match(/^v(\d+)(?:-(barem))?$/);
+ if(m){const v=VARIANTE.find(x=>x.id==m[1]);if(v){if(T.v!==v.id){tReset();T.v=v.id}return plate(v,m[2]?"barem":"fisa")}}
+ if(h==="matrice")return shelf("matrice");
+ if(h==="tipar")return shelf("tipar");
+ shelf("variante")}
+window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0)});
+
+function shelf(tab){
+ const tabs=[["variante","Variante"],["matrice","Matrice de acoperire"],["tipar","Pentru tipar"]];
+ let body="";
+ if(tab==="variante")body=shelfBody();else if(tab==="matrice")body=matrixBody();else body=printBody();
+ app.innerHTML=`<header class="masthead wrap">
+  <div class="eyebrow">Farmacologie · Modulul 1 · Anul II MG · O.S.P.E.</div>
+  <h1>Planșe <i>Farmacologie</i></h1>
+  <p class="lede">Douăzeci de variante de OSPE construite după modelul de la LP 4 și după baremele reale: trei subiecte, 9 puncte, 7 minute, plus punctul bonus pe cascada moleculară. Cazurile nu numesc medicamente; îți dau proprietăți (afinitate, activitate intrinsecă, tip de receptor, lipofilie, inductor sau inhibitor) și tu deduci efectul.</p>
+ </header>
+ <nav class="tools" aria-label="Secțiuni"><div class="wrap"><div class="seg" role="group" aria-label="Secțiune">
+  ${tabs.map(([k,l])=>`<button type="button" data-tab="${k}" aria-pressed="${k===tab}">${l}</button>`).join("")}
+ </div></div></nav>
+ <main class="wrap">${body}</main>
+ <footer class="foot wrap"><div>Sursa unică a baremelor: textul din LP 1–4 (Introducere – Farmacocinetică, Farmacodinamie, Farmacotoxicologie) și Materialul OSPE Farmacologie generală 2026–2027. Fiecare rând de barem trimite la cazul din LP (<span class="src-k">LP 3 · c4</span>) sau la pagina din material (<span class="src-k o">OSPE p.14</span>).</div><div>Material de exersare, pentru uz intern. Nu înlocuiește baremul oficial al disciplinei.</div></footer>`;
+ app.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{location.hash=b.dataset.tab==="variante"?"":b.dataset.tab;if(b.dataset.tab==="variante")route()});
+}
+
+function shelfBody(){
+ return `<section class="chapter"><header><h2>Cum lucrezi o variantă</h2></header>
+ <ol class="steps"><li><span class="n">1</span><span><b>Pornește cronometrul</b> pe fișa student și scrie răspunsurile în 7 minute, fără material.</span></li>
+ <li><span class="n">2</span><span><b>Treci la barem.</b> Răspunsurile tale apar sub fiecare rând, lângă răspunsul acceptat.</span></li>
+ <li><span class="n">3</span><span><b>Punctează-te</b> cu 0, parțial sau maxim, ca examinatorul. Scorul și nota estimată se adună în bară.</span></li></ol></section>
+ <section class="chapter"><header><h2>Variante</h2><span class="disc">Farmacologie</span></header>
+ <div class="shelf">${VARIANTE.map(v=>{const d=domPts(v);const sc=store.sc[v.id];const done=sc&&Object.keys(sc).length;
+  return `<a class="jar" href="#v${v.id}"><div class="ph"><span class="glyph">V${v.id}</span>${done?`<span class="done">✓ ${fmt(scoreOf(v).pts)} p</span>`:""}</div>
+  <div class="body"><h3>${esc(v.titlu)}</h3></div>
+  <div class="label">${v.subiecte.map(s=>`<span class="tag k">${s.dom} ${fmt(subMax(s))} p</span>`).join("")}</div></a>`}).join("")}</div></section>`;
+}
+
+/* matrice de acoperire: cazurile din LP × variante */
+const CAT=[
+ ["LP 1","Farmacocinetică – absorbție, distribuție",[["LP 1 · c1","Peptid administrat oral"],["LP 1 · c2","Bioechivalență (Cmax, Tmax, AUC)"],["LP 1 · c3","Legarea de calciu la absorbție"],["LP 1 · c4","Bariera hematoencefalică"],["LP 1 · c5","Volum aparent de distribuție"],["LP 1 · c6","Substanță lipofilă la pacient obez"],["LP 1 · c7","Deplasare de pe proteinele plasmatice"],["LP 1 · Proteine de legare","Hipoalbuminemie, SHBG/TBG"],["LP 1 · Efectul primului pasaj","Primul pasaj hepatic"],["LP 1 · Biodisponibilitatea","Calculul biodisponibilității"],["LP 1 · De reținut","Condiții de traversare a membranelor"]]],
+ ["LP 2","Farmacocinetică – metabolizare, eliminare",[["LP 2 · c1","Inductor enzimatic + substrat"],["LP 2 · c2","Autoinducție enzimatică"],["LP 2 · c3","Inhibitor enzimatic + substrat"],["LP 2 · c4","Prodrug + inhibitor enzimatic"],["LP 2 · c5","pH urinar, acid slab"],["LP 2 · c6","Timp de înjumătățire, prize"],["LP 2 · c7","Cinetică, insuficiență renală"],["LP 2 · Tipuri de cinetică","Cinetică de ordinul I vs. 0"],["LP 2 · Excreția","Filtrare, secreție, reabsorbție tubulară"],["LP 2 · Metabolizarea","Enzime microzomiale și nemicrozomiale"],["LP 2 · Consecințe","Tabelul consecințelor inductor/inhibitor"]]],
+ ["LP 3","Farmacodinamie – receptori cuplați cu proteine G",[["LP 3 · c1","Potență vs. eficacitate"],["LP 3 · c2","Antagonist competitiv în supradoză"],["LP 3 · c3","Agonist β2 (Gs)"],["LP 3 · c4","Antagonist β1 (Gs)"],["LP 3 · c5","Agonist M1,3 pe intestin izolat"],["LP 3 · c6","Secreția salivară"],["LP 3 · c7","Pupilă și presiune intraoculară"],["LP 3 · Receptori enzime","Receptorul tirozin-kinazic (insulina)"],["LP 3 · Interacțiunea ligand-receptor","Afinitate, activitate intrinsecă, tipuri de liganzi"],["LP 3 · tabel Rp colinergici","Tabelul receptorilor colinergici"],["LP 3 · tabel Rp adrenergici","Tabelul receptorilor adrenergici"]]],
+ ["LP 4","Farmacodinamie – canale ionice, intracelulari; farmacotoxicologie",[["LP 4 · c1","Agonist GABA-A (canal de Cl⁻)"],["LP 4 · c2","Receptori N2, curarizante"],["LP 4 · c3","Tahifilaxie"],["LP 4 · c4","Down-regulation, toleranță, dependență"],["LP 4 · c5","Up-regulation, rebound"],["LP 4 · c6","Idiosincrazie"],["LP 4 · c7","Anafilaxie, glucocorticoizi"],["LP 4 · Reacții adverse","Clasificarea reacțiilor adverse"]]]
+];
+const hits=(v,key)=>{let n=0;v.subiecte.forEach(s=>s.items.forEach(i=>i.src.forEach(t=>{if(t===key||t.startsWith(key+".")||t.startsWith(key+" "))n++})));v.bonus.src.forEach(t=>{if(t===key||t.startsWith(key+".")||t.startsWith(key+" "))n++});return n};
+function matrixBody(){
+ const cols=VARIANTE.map(v=>`<th scope="col"><a class="vl" href="#v${v.id}-barem">V${v.id}</a></th>`).join("");
+ let rows="",zero=[];
+ CAT.forEach(([lp,nm,cases])=>{rows+=`<tr class="grp"><th colspan="${VARIANTE.length+2}">${lp} · ${nm}</th></tr>`;
+  cases.forEach(([k,n])=>{const hs=VARIANTE.map(v=>hits(v,k));const tot=hs.reduce((a,b)=>a+b,0);if(!tot)zero.push(k+" – "+n);
+   rows+=`<tr${tot?"":' class="zero"'}><th scope="row" class="mono" style="font-size:.78rem;white-space:nowrap">${k.replace(lp+" · ","")}</th><td class="nm">${n}</td>${hs.map(h=>`<td>${h?`<span class="hit">${h}</span>`:""}</td>`).join("")}</tr>`})});
+ const foot=["FC","FD","FT"].map(k=>`<tr><th scope="row" colspan="2" style="text-align:left">Puncte ${DOM[k].toLowerCase()}</th>${VARIANTE.map(v=>`<td>${fmt(domPts(v)[k])}</td>`).join("")}</tr>`).join("")+
+  `<tr><th scope="row" colspan="2" style="text-align:left">Total</th>${VARIANTE.map(v=>`<td>${fmt(v.subiecte.reduce((a,s)=>a+subMax(s),0))}</td>`).join("")}</tr>`;
+ return `<section class="chapter"><header><h2>Matrice de acoperire</h2><span class="eyebrow">cifra = rânduri de barem care trimit la caz</span></header>
+ <p class="lede" style="margin-bottom:14px">Fiecare variantă are un subiect de farmacocinetică, unul de farmacodinamie și unul de farmacotoxicologie, între 2 și 4,5 puncte fiecare, ca dificultatea să fie comparabilă. Modelul de la LP 4 împarte 2 / 5 / 2 puncte.</p>
+ <div class="mx-wrap"><table class="mx"><thead><tr><th scope="col">Caz</th><th scope="col" style="text-align:left">Temă</th>${cols}</tr></thead><tbody>${rows}</tbody><tfoot>${foot}</tfoot></table></div>
+ ${zero.length?`<p class="lede" style="margin-top:14px"><b style="color:var(--required)">Neacoperite de aceste variante:</b> ${zero.map(esc).join("; ")}. Recapitulează-le direct din LP.</p>`:""}</section>`;
+}
+
+/* fișa student */
+function fisaHtml(v){
+ return `<article class="fisa" id="fisa">
+ <div class="fh"><b>O.S.P.E. – Fișă student · V${v.id}</b><span class="disc">Farmacologie</span><span class="meta">Facultatea de Medicină · Anul 2 · Modulul 1 · Disciplina: Farmacologie</span></div>
+ ${v.subiecte.map((s,si)=>`<section class="sec"><h3><span>Subiectul ${si+1}</span><span class="pts">${fmt(subMax(s))} p</span></h3>
+  <p class="stem">${esc(s.stem)}</p>
+  <ol class="qs">${s.items.map((it,ii)=>{const id=`r-${v.id}-${si}-${ii}`;return `<li><span class="lt">${LET[ii]}.</span><span class="qt">${esc(it.q)} <b class="pt">(${fmt(it.p[2])} p)</b></span>
+   <textarea id="${id}" data-k="${v.id}.${si}.${ii}" aria-label="Răspunsul tău la ${si+1}${LET[ii]}" placeholder="Răspunsul tău">${esc(store.ans[`${v.id}.${si}.${ii}`]||"")}</textarea></li>`}).join("")}</ol></section>`).join("")}
+ <div class="important"><b>IMPORTANT!</b><p>Timp: <span class="t">7 minute</span></p><p>Vă rugăm să nu puneți întrebări suplimentare examinatorului!</p><p>Punctajul maxim pe care îl puteți obține este 9; 1 punct este din oficiu.</p></div>
+ </article>`;
+}
+
+/* barem */
+function scoreOf(v){const sc=store.sc[v.id]||{};let pts=0,bon=0;
+ v.subiecte.forEach((s,si)=>s.items.forEach((it,ii)=>{const x=sc[`${si}.${ii}`];if(x!=null)pts+=x}));
+ if(sc.b!=null)bon=sc.b;return {pts,bon,nota:Math.min(10,pts+bon+1),n:Object.keys(sc).filter(k=>k!=="b").length}}
+function pick(key,vals,cur){return `<div class="pick" role="group" aria-label="Punctaj">${vals.map(x=>`<button type="button" data-s="${key}" data-x="${x}" aria-pressed="${cur===x}">${fmt(x)}</button>`).join("")}</div>`}
+function baremHtml(v){
+ const sc=store.sc[v.id]||{};
+ let h=`<article class="fisa" id="barem"><div class="fh"><b>O.S.P.E. – Barem de corectare · V${v.id}</b><span class="disc">Farmacologie</span><span class="meta">Facultatea de Medicină · Anul 2 · Modulul 1 · Disciplina: Farmacologie</span></div>
+ <div class="practhint">Atinge un răspuns ca să-l vezi. Punctează-te înainte, dacă vrei să fii sincer cu tine.</div>
+ <div class="bt" role="table" aria-label="Barem"><div class="br th" role="row"><div class="nr">Nr.</div><div>Activități</div><div class="c">0</div><div class="c">parțial</div><div class="c">maxim</div><div class="et">Punctaj etapă</div></div>`;
+ v.subiecte.forEach((s,si)=>{
+  h+=`<div class="br sh" role="row"><div class="nr">${si+1}</div><div class="act" style="grid-column:2/-1"><span class="tag k" style="justify-self:start">${DOM[s.dom]}</span><span class="st">${esc(s.stem)}</span><span class="sum">${fmt(subMax(s))} p</span></div></div>`;
+  s.items.forEach((it,ii)=>{const key=`${si}.${ii}`;const mine=store.ans[`${v.id}.${si}.${ii}`];const vals=it.p.filter(x=>x!==null);
+   const n=it.n?`<span class="nn">Cerute ${it.n} noțiuni · se iau în calcul doar primele ${Math.floor(it.n*1.5)}.</span>`:"";
+   h+=`<div class="br" role="row"><div class="nr">${LET[ii]}</div><div class="act"><span class="ans">${ptsHtml(it.ans)}</span>${it.acc?`<span class="acc">Se acceptă: ${esc(it.acc)}</span>`:""}${n}
+    ${mine&&mine.trim()?`<div class="mine"><b>Răspunsul tău</b>${esc(mine)}</div>`:""}<span class="srcs">${it.src.map(srcChip).join("")}</span></div>
+    <div class="c">0</div><div class="c">${it.p[1]===null?"–":fmt(it.p[1])}</div><div class="c mx">${fmt(it.p[2])}</div><div class="et">${pick(key,vals,sc[key])}</div></div>`})});
+ h+=`<div class="br bonus" role="row"><div class="nr"></div><div class="act"><span class="lab">PUNCT BONUS</span><span class="qq" style="font-size:.9rem">${esc(v.bonus.q)}</span><span class="ans">${esc(v.bonus.ans)}</span><span class="srcs">${v.bonus.src.map(srcChip).join("")}</span></div>
+  <div class="c">0</div><div class="c">–</div><div class="c mx">1</div><div class="et">${pick("b",[0,1],sc.b)}</div></div>`;
+ const r=scoreOf(v);
+ h+=`<div class="br tot" role="row"><div class="span">Total puncte (punctele obținute de student, echivalente cu maxim nota 9)</div><div class="val" id="vt">${fmt(r.pts)} / 9</div></div>
+ <div class="br tot" role="row"><div class="span">Punct bonus</div><div class="val" id="vb">${fmt(r.bon)}</div></div>
+ <div class="br tot of" role="row"><div class="span">Se acordă 1 punct din oficiu</div><div class="val">1</div></div>
+ <div class="br tot" role="row"><div class="span">NOTĂ FINALĂ</div><div class="val" id="vn">${fmt(r.nota)}</div></div></div>
+ <p class="rule"><b>Studentul poate răspunde cu maximum 50% mai multe noțiuni decât numărul solicitat în întrebare; doar primele noțiuni, până la această limită, vor fi luate în considerare la evaluare.</b> Exemplu: dacă se solicită <b>4 noțiuni</b>, vor fi luate în considerare la evaluare doar <b>primele 6 noțiuni</b> menționate de student.</p>
+ <div class="sign">Semnătura examinatorului: <span>…………………………………………</span>Data: <span>………………………</span></div></article>`;
+ return h;
+}
+
+let practice=false;
+function plate(v,view){
+ const i=VARIANTE.indexOf(v),prev=VARIANTE[i-1],next=VARIANTE[i+1];const r=scoreOf(v);
+ app.innerHTML=`<nav class="bar" aria-label="Planșă"><div class="wrap">
+  <a class="btn icon" href="#" aria-label="Înapoi la raft">←</a>
+  <span class="ttl">Varianta ${v.id}</span>
+  <div class="seg" role="group" aria-label="Vedere"><button type="button" data-view="fisa" aria-pressed="${view==="fisa"}">Fișă student</button><button type="button" data-view="barem" aria-pressed="${view==="barem"}">Barem</button></div>
+  <button type="button" class="btn timer" id="tbtn" aria-live="polite"><span class="tl"></span><span class="tv"></span></button>
+  <button type="button" class="btn" id="treset" hidden>Repornește</button>
+  ${view==="barem"?`<button type="button" class="btn${practice?" on":""}" id="prac" aria-pressed="${practice}">Ascunde răspunsurile</button>`:""}
+  <div class="score" id="score">${scorePills(r)}</div>
+  <a class="btn icon" ${prev?`href="#v${prev.id}${view==="barem"?"-barem":""}"`:'aria-disabled="true" style="opacity:.4;pointer-events:none"'} aria-label="Varianta anterioară">‹</a>
+  <a class="btn icon" ${next?`href="#v${next.id}${view==="barem"?"-barem":""}"`:'aria-disabled="true" style="opacity:.4;pointer-events:none"'} aria-label="Varianta următoare">›</a>
+ </div></nav>
+ <main class="wrap"><div class="plansa${practice&&view==="barem"?" practice":""}" id="pl">
+  <header class="head"><div class="eyebrow">Farmacologie · Modulul 1 · O.S.P.E. · V${v.id}</div><h1>${esc(v.titlu)}</h1>
+  <div class="sub">${v.subiecte.map((s,k)=>`${k+1}. ${DOM[s.dom]} · ${fmt(subMax(s))} p`).join("  ·  ")}  ·  bonus 1 p</div></header>
+  ${view==="fisa"?fisaHtml(v):baremHtml(v)}
+  ${view==="fisa"?`<div class="noprint" style="display:flex;justify-content:flex-end"><a class="btn on" href="#v${v.id}-barem">Am terminat · vezi baremul →</a></div>`:""}
+ </div></main>`;
+ tPaint();
+ $("#tbtn").onclick=tToggle;$("#treset").onclick=tReset;
+ app.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>{location.hash=`v${v.id}${b.dataset.view==="barem"?"-barem":""}`});
+ app.querySelectorAll("textarea[data-k]").forEach(t=>t.oninput=()=>{store.ans[t.dataset.k]=t.value;save()});
+ const p=$("#prac");if(p)p.onclick=()=>{practice=!practice;p.classList.toggle("on",practice);p.setAttribute("aria-pressed",practice);$("#pl").classList.toggle("practice",practice);app.querySelectorAll(".ans.shown").forEach(a=>a.classList.remove("shown"))};
+ app.querySelectorAll(".act .ans").forEach(a=>a.onclick=()=>{if(practice)a.classList.add("shown")});
+ app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{const sc=store.sc[v.id]=store.sc[v.id]||{};const k=b.dataset.s,x=parseFloat(b.dataset.x);
+  if(sc[k]===x)delete sc[k];else sc[k]=x;save();
+  b.parentNode.querySelectorAll("button").forEach(o=>o.setAttribute("aria-pressed",sc[k]===parseFloat(o.dataset.x)));
+  const r=scoreOf(v);$("#vt").textContent=fmt(r.pts)+" / 9";$("#vb").textContent=fmt(r.bon);$("#vn").textContent=fmt(r.nota);$("#score").innerHTML=scorePills(r)});
+}
+function scorePills(r){if(!r.n&&!r.bon)return `<span class="pill">9 p + 1 bonus</span>`;
+ return `<span class="pill">${fmt(r.pts)} / 9 p</span><span class="pill ${r.nota>=5?"pass":"fail"}">nota ${fmt(r.nota)}</span>`}
+
+/* versiune de tipar, ca foile oficiale */
+function paperFisa(v){return `<div class="paper"><p class="ph1">Facultatea de Medicină, Anul 2, Modulul 1</p><p class="ph1">Disciplina: Farmacologie</p>
+ <h2>O.S.P.E. – FIȘĂ STUDENT</h2><p class="vx">V${v.id}</p>
+ <ol class="pq">${v.subiecte.map(s=>`<li>${esc(s.stem)}<ol>${s.items.map(it=>`<li>${esc(it.q)} <b>(${fmt(it.p[2])} p)</b></li>`).join("")}</ol></li>`).join("")}</ol>
+ <div class="imp"><b>IMPORTANT!</b><br>Timp: <span class="red">7 minute</span><br>Vă rugăm să nu puneți întrebări suplimentare examinatorului!<br>Punctajul maxim pe care îl puteți obține este 9; 1 punct este din oficiu.</div></div>`}
+function paperBarem(v){let rows="";
+ v.subiecte.forEach((s,si)=>{rows+=`<tr class="s"><td colspan="6">${si+1}</td></tr>`;
+  s.items.forEach((it,ii)=>{rows+=`<tr><td class="c">${LET[ii]}</td><td>${esc(it.ans).replace(/\((\d+(?:,\d+)?) p\)/g,"<b>($1 p)</b>")}${it.acc?`<br><span class="pn">Se acceptă: ${esc(it.acc)}</span>`:""}<br><span class="pn">${it.src.map(esc).join(" · ")}</span></td><td class="c">0</td><td class="c">${it.p[1]===null?"-":fmt(it.p[1])}</td><td class="c g">${fmt(it.p[2])}</td><td></td></tr>`})});
+ rows+=`<tr><td></td><td class="blue">PUNCT BONUS: ${esc(v.bonus.ans)}</td><td class="c"></td><td class="c"></td><td class="c"><b>1</b></td><td></td></tr>`;
+ return `<div class="paper"><p class="ph1">Facultatea de Medicină, Anul 2, Modulul 1</p><p class="ph1">Disciplina: Farmacologie</p>
+ <h2>O.S.P.E. – BAREM DE CORECTARE</h2><p class="vx">V${v.id}</p><p class="ph1" style="margin-bottom:8px">Numele și prenumele studentului: ………………………………………………………</p>
+ <table><thead><tr><th>Nr.</th><th>Activități</th><th colspan="3">Puncte/item<br><span class="pn">(0/parțial/maxim)</span></th><th>Punctaj /etapă</th></tr></thead><tbody>${rows}
+ <tr><td colspan="5"><b>Total puncte (punctele obținute de student, echivalente cu maxim nota 9)</b></td><td></td></tr>
+ <tr><td colspan="6" class="red">Se acordă 1 punct din oficiu</td></tr><tr><td colspan="6"><b>NOTĂ FINALĂ:</b></td></tr></tbody></table>
+ <p class="rule"><b>Studentul poate răspunde cu maximum 50% mai multe noțiuni decât numărul solicitat în întrebare; doar primele noțiuni, până la această limită, vor fi luate în considerare la evaluare. Exemplu:</b> Dacă se solicită <b>4 noțiuni</b>, vor fi luate în considerare la evaluare doar <b>primele 6 noțiuni</b> menționate de student.</p>
+ <p class="sg">Semnătura examinatorului: ……………………………………………</p><p class="sg">Data: ……………………</p></div>`}
+function printBody(){return `<section class="chapter"><header><h2>Pentru tipar</h2><span class="eyebrow">fișă + barem pentru fiecare variantă</span></header>
+ <p class="tip-note">Foile de mai jos copiază așezarea fișei și a baremului oficial. Fișierul PDF trimis odată cu planșele are exact aceste pagini, câte una pe foaie.</p>
+ ${VARIANTE.map(v=>paperFisa(v)+paperBarem(v)).join("")}</section>`}
+
+route();
+})();
+</script>
+
+</body>
+</html>
