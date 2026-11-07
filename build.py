@@ -1,8 +1,14 @@
-# Reconstruiește index.html din src/template.html + src/data.js: python3 build.py
+# Reconstruiește index.html din src/: python3 build.py
+# Versiunea publică nu include imaginile slide-urilor (materiale de curs de uz intern):
+# trimiterile deschid textul citat, marcat cu galben, și spun unde e în LP.
+import json
 t = open('src/template.html', encoding='utf-8').read()
 d = open('src/data.js', encoding='utf-8').read().replace('if (typeof module !== "undefined") module.exports = VARIANTE;', '')
+s = json.load(open('src/sources.json', encoding='utf-8'))
+page = (t.replace('/*DATA*/', d)
+         .replace('/*SURSE*/', json.dumps(s, ensure_ascii=False, separators=(',', ':')))
+         .replace('/*IMG*/true', 'false'))
 html = ('<!doctype html>\n<html lang="ro">\n<head>\n<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'
-        '<meta name="description" content="Douăzeci de variante OSPE de farmacologie generală, după baremele reale: trei subiecte, 9 puncte, 7 minute, cu barem de autocorectare.">\n'
-        '</head>\n<body>\n' + t.replace('/*DATA*/', d) + '\n</body>\n</html>\n')
+        '</head>\n<body>\n' + page + '\n</body>\n</html>\n')
 open('index.html', 'w', encoding='utf-8').write(html)

@@ -1,5 +1,6 @@
 <title>Planșe OSPE Farmacologie</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Douăzeci de variante OSPE de farmacologie generală, după baremele reale: trei subiecte, 9 puncte, 7 minute, cu barem de autocorectare și trimiteri la LP.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -8,7 +9,7 @@
 :root{
  --bg:#f2f1f6;--surface:#ffffff;--surface-2:#e9e7f1;--ink:#1d1a2c;--muted:#5d5973;--line:#d8d5e3;
  --accent:#3b2d91;--accent-soft:#e3dff7;--on-accent:#ffffff;--required:#c42f66;--required-soft:#fbe2eb;
- --discipline:#7a5a00;--discipline-soft:#f6eccb;--ok:#17744a;--ok-soft:#dcf1e5;--frost:#f7f8fa;
+ --discipline:#7a5a00;--discipline-soft:#f6eccb;--ok:#17744a;--ok-soft:#dcf1e5;--frost:#f7f8fa;--stage:#0f0d16;--highlight:rgba(255,226,0,.45);
  --shadow:0 1px 2px rgba(29,26,44,.06),0 12px 28px -20px rgba(29,26,44,.45);
  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,-apple-system,sans-serif;
  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
@@ -17,12 +18,12 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
  --bg:#121019;--surface:#1a1724;--surface-2:#242031;--ink:#ece9f6;--muted:#a39eb8;--line:#312c42;
  --accent:#afa2ff;--accent-soft:#2a2550;--on-accent:#15112e;--required:#ff7ea8;--required-soft:#3d1b29;
- --discipline:#e6be4a;--discipline-soft:#352a0c;--ok:#5ed39a;--ok-soft:#14321f;--frost:#2a2836;
+ --discipline:#e6be4a;--discipline-soft:#352a0c;--ok:#5ed39a;--ok-soft:#14321f;--frost:#2a2836;--stage:#07060b;
  --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 30px -18px rgba(0,0,0,.9);color-scheme:dark}}
 :root[data-theme="dark"]{
  --bg:#121019;--surface:#1a1724;--surface-2:#242031;--ink:#ece9f6;--muted:#a39eb8;--line:#312c42;
  --accent:#afa2ff;--accent-soft:#2a2550;--on-accent:#15112e;--required:#ff7ea8;--required-soft:#3d1b29;
- --discipline:#e6be4a;--discipline-soft:#352a0c;--ok:#5ed39a;--ok-soft:#14321f;--frost:#2a2836;
+ --discipline:#e6be4a;--discipline-soft:#352a0c;--ok:#5ed39a;--ok-soft:#14321f;--frost:#2a2836;--stage:#07060b;
  --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 30px -18px rgba(0,0,0,.9);color-scheme:dark}
 
 *,*::before,*::after{box-sizing:border-box}
@@ -201,6 +202,37 @@ a.vl{color:inherit;text-decoration:none}a.vl:hover{color:var(--accent)}
 .paper .sg{margin-top:14px;font-weight:700}
 .paper .pn{color:#555;font-size:11px}
 .tip-note{color:var(--muted);font-size:.9rem;max-width:70ch;margin:0 auto 18px}
+
+/* trimiteri la sursă: popup cu slide-ul sau pagina, pasajul marcat cu galben, fără chenar */
+button.src{appearance:none;background:var(--surface);font-family:var(--f-mono);font-size:.68rem;font-weight:500;padding:1px 6px;border-radius:4px;border:1px solid var(--line);color:var(--accent);white-space:nowrap;cursor:pointer;line-height:1.5}
+button.src:hover{border-color:var(--accent);background:var(--accent-soft)}
+button.src.r{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 45%,var(--line))}
+.pop{position:fixed;inset:0;z-index:70;background:color-mix(in srgb,var(--stage) 55%,transparent);display:grid;place-items:center;padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.pop-in{width:min(100%,60rem);max-height:100%;height:min(100%,56rem);display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.pop-h{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px 8px 12px;border-bottom:1px solid var(--line)}
+.pop-h>div:first-child{flex:1 1 auto;min-width:0}
+.vt .eyebrow,.vt b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vt b{font-family:var(--f-display);font-weight:700}
+.pop-act{display:flex;gap:6px;align-items:center;flex:0 0 auto}
+.pop-b{overflow:auto;min-height:0;flex:1 1 auto;padding:12px;display:grid;gap:10px;align-content:start;background:var(--surface-2)}
+.pq{margin:0;padding:8px 12px;background:var(--surface);border-radius:8px;font-size:.92rem;line-height:1.6}
+.pq mark{background:var(--highlight);color:inherit;border-radius:3px;padding:1px 2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.slide{position:relative;margin:0 auto;width:100%;max-width:100%;background:#fff;box-shadow:var(--shadow)}
+.slide.rpage{max-width:46rem}
+.slide img{display:block;width:100%;height:auto}
+.slide.big{width:200%;max-width:none}
+.slide.rpage.big{width:min(200%,92rem)}
+.slide .hl{position:absolute;background:var(--highlight);border:0;border-radius:3px;mix-blend-mode:multiply;pointer-events:none}
+.pop-in.txt{height:auto}
+.pnote{margin:0;font-size:.82rem;color:var(--muted)}
+.pager{flex:0 0 auto;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:center;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--surface)}
+.pager>[data-nav]{min-height:44px;justify-content:center;font-size:1rem}
+.pager>[data-nav]:disabled{opacity:.35;cursor:default}
+.pager .pg{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:9.5rem}
+.pager .pg .mono{font-size:.9rem;font-weight:600;font-variant-numeric:tabular-nums}
+.pager .home{visibility:hidden;min-height:30px;padding:3px 10px;font-size:.8rem;border-color:var(--accent);color:var(--accent)}
+.pager .home.vis{visibility:visible}
+@media (max-width:520px){.pager>[data-nav] span{display:none}.pop{padding:0}.pop-in{width:100%;height:100%;border-radius:0;border:0}.pop-b{padding:8px}.pager .pg{min-width:8rem}}
 @media print{
  :root{--bg:#fff;--surface:#fff;--surface-2:#eee;--ink:#111;--muted:#444;--line:#999;color-scheme:light}
  .tools,.bar,.masthead,.foot,.tip-note,.noprint{display:none!important}
@@ -222,6 +254,8 @@ a.vl{color:inherit;text-decoration:none}a.vl:hover{color:var(--accent)}
 
 <script>
 /*DATA*/
+const SURSE=/*SURSE*/;
+const SURSE_IMG=/*IMG*/true;
 </script>
 <script>
 (function(){
@@ -235,6 +269,7 @@ const DOM={FC:"Farmacocinetică",FD:"Farmacodinamie",FT:"Farmacotoxicologie"};
 const subMax=s=>s.items.reduce((a,i)=>a+i.p[2],0);
 const domPts=v=>{const d={FC:0,FD:0,FT:0};v.subiecte.forEach(s=>d[s.dom]+=subMax(s));return d};
 const srcChip=t=>`<span class="src-k${t.startsWith("OSPE")?" o":""}">${esc(t)}</span>`;
+const srcBtn=(key,t)=>`<button type="button" class="src${t.startsWith("OSPE")?" r":""}" data-ref="${esc(key+"|"+t)}" aria-haspopup="dialog">${esc(t)}</button>`;
 
 /* stare per cititor: răspunsuri scrise și autoevaluare */
 let store={ans:{},sc:{}};
@@ -342,9 +377,9 @@ function baremHtml(v){
   s.items.forEach((it,ii)=>{const key=`${si}.${ii}`;const mine=store.ans[`${v.id}.${si}.${ii}`];const vals=it.p.filter(x=>x!==null);
    const n=it.n?`<span class="nn">Cerute ${it.n} noțiuni · se iau în calcul doar primele ${Math.floor(it.n*1.5)}.</span>`:"";
    h+=`<div class="br" role="row"><div class="nr">${LET[ii]}</div><div class="act"><span class="ans">${ptsHtml(it.ans)}</span>${it.acc?`<span class="acc">Se acceptă: ${esc(it.acc)}</span>`:""}${n}
-    ${mine&&mine.trim()?`<div class="mine"><b>Răspunsul tău</b>${esc(mine)}</div>`:""}<span class="srcs">${it.src.map(srcChip).join("")}</span></div>
+    ${mine&&mine.trim()?`<div class="mine"><b>Răspunsul tău</b>${esc(mine)}</div>`:""}<span class="srcs">${it.src.map(x=>srcBtn(`${v.id}.${si}.${ii}`,x)).join("")}</span></div>
     <div class="c">0</div><div class="c">${it.p[1]===null?"–":fmt(it.p[1])}</div><div class="c mx">${fmt(it.p[2])}</div><div class="et">${pick(key,vals,sc[key])}</div></div>`})});
- h+=`<div class="br bonus" role="row"><div class="nr"></div><div class="act"><span class="lab">PUNCT BONUS</span><span class="qq" style="font-size:.9rem">${esc(v.bonus.q)}</span><span class="ans">${esc(v.bonus.ans)}</span><span class="srcs">${v.bonus.src.map(srcChip).join("")}</span></div>
+ h+=`<div class="br bonus" role="row"><div class="nr"></div><div class="act"><span class="lab">PUNCT BONUS</span><span class="qq" style="font-size:.9rem">${esc(v.bonus.q)}</span><span class="ans">${esc(v.bonus.ans)}</span><span class="srcs">${v.bonus.src.map(x=>srcBtn(`${v.id}.b`,x)).join("")}</span></div>
   <div class="c">0</div><div class="c">–</div><div class="c mx">1</div><div class="et">${pick("b",[0,1],sc.b)}</div></div>`;
  const r=scoreOf(v);
  h+=`<div class="br tot" role="row"><div class="span">Total puncte (punctele obținute de student, echivalente cu maxim nota 9)</div><div class="val" id="vt">${fmt(r.pts)} / 9</div></div>
@@ -409,6 +444,33 @@ function paperBarem(v){let rows="";
 function printBody(){return `<section class="chapter"><header><h2>Pentru tipar</h2><span class="eyebrow">fișă + barem pentru fiecare variantă</span></header>
  <p class="tip-note">Foile de mai jos copiază așezarea fișei și a baremului oficial. Fișierul PDF trimis odată cu planșele are exact aceste pagini, câte una pe foaie.</p>
  ${VARIANTE.map(v=>paperFisa(v)+paperBarem(v)).join("")}</section>`}
+
+/* popup de surse: slide-ul sau pagina citată, pasajul în galben */
+let popState=null,lastFocus=null;
+function openSrc(ref){const r=SURSE.refs[ref];if(!r)return;lastFocus=document.activeElement;
+ popState={ref,r,i:Math.max(0,r.pp.indexOf(r.p)),big:false};renderPop();document.addEventListener("keydown",popKey)}
+function closeSrc(){const p=document.getElementById("pop");if(p)p.remove();popState=null;document.removeEventListener("keydown",popKey);if(lastFocus)lastFocus.focus()}
+function popKey(e){if(e.key==="Escape")closeSrc();if(e.key==="ArrowRight")popNav(1);if(e.key==="ArrowLeft")popNav(-1)}
+function popNav(d){if(!popState)return;const n=popState.i+d;if(n<0||n>=popState.r.pp.length)return;popState.i=n;renderPop()}
+function renderPop(){const {ref,r,i,big}=popState;const tag=ref.split("|")[1];const pg=r.pp[i];const H=r.h[pg];
+ const isLP=r.d!=="ospe";const k=`${r.d}-${pg}`;const meta=SURSE.pages[k]||{};const unit=isLP?"slide-ul":"pagina";
+ const marked=Object.keys(r.h).map(Number);const onBest=!!H;
+ const hl=H?H.b.map(([x,y,w,h])=>`<span class="hl" style="left:${x*100}%;top:${y*100}%;width:${w*100}%;height:${h*100}%"></span>`).join(""):"";
+ const note=H?`<blockquote class="pq"><mark>${esc(H.q)}</mark></blockquote>`:(marked.length?`<p class="pnote">Pagină din aceeași trimitere. Pasajul marcat e pe ${unit} ${marked.join(" și ")}.</p>`:`<p class="pnote">Informația e în schema de pe ${unit} ${pg}, nu în text, deci nu poate fi marcată. Uită-te pe imagine.</p>`);
+ let el=document.getElementById("pop");if(!el){el=document.createElement("div");el.id="pop";el.className="pop";el.setAttribute("role","dialog");el.setAttribute("aria-modal","true");document.body.appendChild(el);el.addEventListener("click",e=>{if(e.target===el)closeSrc()})}
+ el.setAttribute("aria-label",tag);
+ el.innerHTML=`<div class="pop-in${SURSE_IMG?"":" txt"}"><div class="pop-h"><div class="vt"><span class="eyebrow">${esc(SURSE.docs[r.d])}</span><b>${esc(tag)} · ${isLP?"slide":"pagina"} ${pg}</b></div>
+  <div class="pop-act">${SURSE_IMG?"":"<!--"}<button type="button" class="btn icon" id="pz" aria-label="${big?"Micșorează":"Mărește"}">${big?"−":"+"}</button>${SURSE_IMG?"":"-->"}<button type="button" class="btn icon" id="px" aria-label="Închide">✕</button></div></div>
+  <div class="pop-b">${note}${SURSE_IMG?"":`<p class="pnote">Imaginea ${isLP?"slide-ului":"paginii"} nu e publicată aici, pentru că materialele de curs sunt de uz intern. Deschide ${esc(SURSE.docs[r.d])}, ${isLP?"slide-ul":"pagina"} ${pg}.</p>`}${SURSE_IMG?"":"<!--"}<figure class="slide${isLP?"":" rpage"}${big?" big":""}" style="margin:0 auto${meta.iw?`;aspect-ratio:${meta.iw}/${meta.ih}`:""}"><img src="src-img/${k}.jpg" alt="${esc(tag)}, ${isLP?"slide":"pagina"} ${pg}" width="${meta.iw||""}" height="${meta.ih||""}">${hl}</figure>${SURSE_IMG?"":"-->"}</div>
+  ${r.pp.length>1?`<div class="pager"><button type="button" class="btn" data-nav="-1" ${i===0?"disabled":""} style="justify-self:start">‹ <span>Anterior</span></button>
+   <div class="pg"><span class="mono">${i+1} / ${r.pp.length}</span><button type="button" class="btn home${onBest||!marked.length?"":" vis"}" id="ph">Înapoi la pasaj</button></div>
+   <button type="button" class="btn" data-nav="1" ${i===r.pp.length-1?"disabled":""} style="justify-self:end"><span>Următor</span> ›</button></div>`:""}</div>`;
+ el.querySelector("#px").onclick=closeSrc;const pz=el.querySelector("#pz");if(pz)pz.onclick=()=>{popState.big=!popState.big;renderPop()};
+ el.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>popNav(+b.dataset.nav));
+ const ph=el.querySelector("#ph");if(ph)ph.onclick=()=>{popState.i=r.pp.indexOf(r.p);renderPop()};
+ const f=el.querySelector(".hl");if(f&&!big)requestAnimationFrame(()=>{const b=el.querySelector(".pop-b");const fr=f.getBoundingClientRect(),br=b.getBoundingClientRect();if(fr.top>br.bottom-40)b.scrollTop+=fr.top-br.top-60});
+ el.querySelector("#px").focus()}
+document.addEventListener("click",e=>{const b=e.target.closest("button.src[data-ref]");if(b)openSrc(b.dataset.ref)});
 
 route();
 })();
