@@ -49,6 +49,9 @@ h1,h2,h3{font-family:var(--f-display);line-height:1.12;margin:0;text-wrap:balanc
 .masthead{padding-block:28px 10px;display:grid;gap:14px}
 .masthead h1{font-size:clamp(1.9rem,5.4vw,3.1rem);font-weight:800}
 .masthead h1 i{font-style:normal;color:var(--discipline)}
+/* întoarcere la hub (designul Planșe: HubLink) */
+.hub{display:inline-flex;align-items:center;gap:6px;width:max-content;min-height:36px;margin:-6px 0 -10px -8px;padding:0 10px 0 8px;border-radius:8px;font-family:var(--f-mono);font-size:.74rem;font-weight:600;letter-spacing:.03em;color:var(--accent);text-decoration:none}
+.hub:hover{background:var(--accent-soft)}
 .lede{color:var(--muted);max-width:66ch;margin:0}
 .tools{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .tools .wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding-block:10px}
@@ -765,6 +768,7 @@ function shelf(tab){
  let body="";
  if(tab==="variante")body=shelfBody();else if(tab==="matrice")body=matrixBody();else body=printBody();
  app.innerHTML=`<header class="masthead wrap">
+  <a class="hub" href="https://budualexandru29-coder.github.io/HUB/">← Toate simulatoarele</a>
   <div class="eyebrow">Farmacologie · Modulul 1 · Anul II MG · O.S.P.E.</div>
   <h1>Planșe <i>Farmacologie</i></h1>
   <p class="lede">Douăzeci de variante de OSPE construite după modelul de la LP 4 și după baremele reale: trei subiecte, 9 puncte, 7 minute, plus punctul bonus pe cascada moleculară. Cazurile nu numesc medicamente; îți dau proprietăți (afinitate, activitate intrinsecă, tip de receptor, lipofilie, inductor sau inhibitor) și tu deduci efectul.</p>
