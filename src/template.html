@@ -9,7 +9,7 @@
 :root{
  --bg:#f2f1f6;--surface:#ffffff;--surface-2:#e9e7f1;--ink:#1d1a2c;--muted:#5d5973;--line:#d8d5e3;
  --accent:#3b2d91;--accent-soft:#e3dff7;--on-accent:#ffffff;--required:#c42f66;--required-soft:#fbe2eb;
- --discipline:#7a5a00;--discipline-soft:#f6eccb;--ok:#17744a;--ok-soft:#dcf1e5;--frost:#f7f8fa;--stage:#0f0d16;--highlight:rgba(255,226,0,.45);
+ --discipline:#7a5a00;--discipline-soft:#f6eccb;--ok:#17744a;--ok-soft:#dcf1e5;--frost:#f7f8fa;--stage:#0f0d16;--highlight:rgba(255,226,0,.45);--quote-rule:#f2b705;
  --shadow:0 1px 2px rgba(29,26,44,.06),0 12px 28px -20px rgba(29,26,44,.45);
  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,-apple-system,sans-serif;
  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
@@ -215,8 +215,12 @@ button.src.r{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 45%,var(--
 .vt b{font-family:var(--f-display);font-weight:700}
 .pop-act{display:flex;gap:6px;align-items:center;flex:0 0 auto}
 .pop-b{overflow:auto;min-height:0;flex:1 1 auto;padding:12px;display:grid;gap:10px;align-content:start;background:var(--surface-2)}
-.pq{margin:0;padding:8px 12px;background:var(--surface);border-radius:8px;font-size:.92rem;line-height:1.6}
-.pq mark{background:var(--highlight);color:inherit;border-radius:3px;padding:1px 2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.pq{margin:0;padding:8px 12px;border-left:4px solid var(--quote-rule);background:var(--surface);border-radius:0 8px 8px 0;font-size:.92rem}
+.vq{display:grid;gap:8px}
+.rx{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px}.rx p{margin:4px 0 0;font-size:.92rem}
+.rx mark{background:var(--highlight);color:inherit;border-radius:3px;padding:1px 2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.btn.sm{min-height:32px;padding:4px 10px;font-size:.82rem}
+#vnote{min-height:1.2em}
 .slide{position:relative;margin:0 auto;width:100%;max-width:100%;background:#fff;box-shadow:var(--shadow)}
 .slide.rpage{max-width:46rem}
 .slide img{display:block;width:100%;height:auto}
@@ -269,7 +273,9 @@ const DOM={FC:"Farmacocinetică",FD:"Farmacodinamie",FT:"Farmacotoxicologie"};
 const subMax=s=>s.items.reduce((a,i)=>a+i.p[2],0);
 const domPts=v=>{const d={FC:0,FD:0,FT:0};v.subiecte.forEach(s=>d[s.dom]+=subMax(s));return d};
 const srcChip=t=>`<span class="src-k${t.startsWith("OSPE")?" o":""}">${esc(t)}</span>`;
-const srcBtn=(key,t)=>`<button type="button" class="src${t.startsWith("OSPE")?" r":""}" data-ref="${esc(key+"|"+t)}" aria-haspopup="dialog">${esc(t)}</button>`;
+const refLabel=(key,t)=>{const r=SURSE.refs[key+"|"+t];if(!r)return t;return r.d==="ospe"?`OSPE p.${r.p}`:`LP ${r.d.slice(2)} p.${r.p}`};
+const srcBtn=(key,t)=>{const r=SURSE.refs[key+"|"+t];const tl=r?(r.d==="ospe"?`Deschide materialul OSPE la pagina ${r.p}`:`Deschide LP ${r.d.slice(2)}, slide-ul ${r.p}`):t;
+ return `<button type="button" class="src${t.startsWith("OSPE")?" r":""}" data-ref="${esc(key+"|"+t)}" title="${esc(tl)}">${esc(refLabel(key,t))}</button>`};
 
 /* stare per cititor: răspunsuri scrise și autoevaluare */
 let store={ans:{},sc:{}};
@@ -312,7 +318,7 @@ function shelf(tab){
   ${tabs.map(([k,l])=>`<button type="button" data-tab="${k}" aria-pressed="${k===tab}">${l}</button>`).join("")}
  </div></div></nav>
  <main class="wrap">${body}</main>
- <footer class="foot wrap"><div>Sursa unică a baremelor: textul din LP 1–4 (Introducere – Farmacocinetică, Farmacodinamie, Farmacotoxicologie) și Materialul OSPE Farmacologie generală 2026–2027. Fiecare rând de barem trimite la cazul din LP (<span class="src-k">LP 3 · c4</span>) sau la pagina din material (<span class="src-k o">OSPE p.14</span>).</div><div>Material de exersare, pentru uz intern. Nu înlocuiește baremul oficial al disciplinei.</div></footer>`;
+ <footer class="foot wrap"><div>Sursa unică a baremelor: textul din LP 1–4 (Introducere – Farmacocinetică, Farmacodinamie, Farmacotoxicologie) și Materialul OSPE Farmacologie generală 2026–2027. Fiecare rând de barem trimite la slide-ul din LP (<span class="src-k">LP 3 p.10</span>) sau la pagina din material (<span class="src-k o">OSPE p.14</span>); atinge trimiterea ca să vezi pasajul evidențiat.</div><div>Material de exersare, pentru uz intern. Nu înlocuiește baremul oficial al disciplinei.</div></footer>`;
  app.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{location.hash=b.dataset.tab==="variante"?"":b.dataset.tab;if(b.dataset.tab==="variante")route()});
 }
 
@@ -432,7 +438,7 @@ function paperFisa(v){return `<div class="paper"><p class="ph1">Facultatea de Me
  <div class="imp"><b>IMPORTANT!</b><br>Timp: <span class="red">7 minute</span><br>Vă rugăm să nu puneți întrebări suplimentare examinatorului!<br>Punctajul maxim pe care îl puteți obține este 9; 1 punct este din oficiu.</div></div>`}
 function paperBarem(v){let rows="";
  v.subiecte.forEach((s,si)=>{rows+=`<tr class="s"><td colspan="6">${si+1}</td></tr>`;
-  s.items.forEach((it,ii)=>{rows+=`<tr><td class="c">${LET[ii]}</td><td>${esc(it.ans).replace(/\((\d+(?:,\d+)?) p\)/g,"<b>($1 p)</b>")}${it.acc?`<br><span class="pn">Se acceptă: ${esc(it.acc)}</span>`:""}<br><span class="pn">${it.src.map(esc).join(" · ")}</span></td><td class="c">0</td><td class="c">${it.p[1]===null?"-":fmt(it.p[1])}</td><td class="c g">${fmt(it.p[2])}</td><td></td></tr>`})});
+  s.items.forEach((it,ii)=>{rows+=`<tr><td class="c">${LET[ii]}</td><td>${esc(it.ans).replace(/\((\d+(?:,\d+)?) p\)/g,"<b>($1 p)</b>")}${it.acc?`<br><span class="pn">Se acceptă: ${esc(it.acc)}</span>`:""}<br><span class="pn">${it.src.map(x=>esc(refLabel(`${v.id}.${si}.${ii}`,x))).join(" · ")}</span></td><td class="c">0</td><td class="c">${it.p[1]===null?"-":fmt(it.p[1])}</td><td class="c g">${fmt(it.p[2])}</td><td></td></tr>`})});
  rows+=`<tr><td></td><td class="blue">PUNCT BONUS: ${esc(v.bonus.ans)}</td><td class="c"></td><td class="c"></td><td class="c"><b>1</b></td><td></td></tr>`;
  return `<div class="paper"><p class="ph1">Facultatea de Medicină, Anul 2, Modulul 1</p><p class="ph1">Disciplina: Farmacologie</p>
  <h2>O.S.P.E. – BAREM DE CORECTARE</h2><p class="vx">V${v.id}</p><p class="ph1" style="margin-bottom:8px">Numele și prenumele studentului: ………………………………………………………</p>
@@ -445,32 +451,50 @@ function printBody(){return `<section class="chapter"><header><h2>Pentru tipar</
  <p class="tip-note">Foile de mai jos copiază așezarea fișei și a baremului oficial. Fișierul PDF trimis odată cu planșele are exact aceste pagini, câte una pe foaie.</p>
  ${VARIANTE.map(v=>paperFisa(v)+paperBarem(v)).join("")}</section>`}
 
-/* popup de surse: slide-ul sau pagina citată, pasajul în galben */
-let popState=null,lastFocus=null;
-function openSrc(ref){const r=SURSE.refs[ref];if(!r)return;lastFocus=document.activeElement;
- popState={ref,r,i:Math.max(0,r.pp.indexOf(r.p)),big:false};renderPop();document.addEventListener("keydown",popKey)}
-function closeSrc(){const p=document.getElementById("pop");if(p)p.remove();popState=null;document.removeEventListener("keydown",popKey);if(lastFocus)lastFocus.focus()}
-function popKey(e){if(e.key==="Escape")closeSrc();if(e.key==="ArrowRight")popNav(1);if(e.key==="ArrowLeft")popNav(-1)}
-function popNav(d){if(!popState)return;const n=popState.i+d;if(n<0||n>=popState.r.pp.length)return;popState.i=n;renderPop()}
-function renderPop(){const {ref,r,i,big}=popState;const tag=ref.split("|")[1];const pg=r.pp[i];const H=r.h[pg];
- const isLP=r.d!=="ospe";const k=`${r.d}-${pg}`;const meta=SURSE.pages[k]||{};const unit=isLP?"slide-ul":"pagina";
- const marked=Object.keys(r.h).map(Number);const onBest=!!H;
- const hl=H?H.b.map(([x,y,w,h])=>`<span class="hl" style="left:${x*100}%;top:${y*100}%;width:${w*100}%;height:${h*100}%"></span>`).join(""):"";
- const note=H?`<blockquote class="pq"><mark>${esc(H.q)}</mark></blockquote>`:(marked.length?`<p class="pnote">Pagină din aceeași trimitere. Pasajul marcat e pe ${unit} ${marked.join(" și ")}.</p>`:`<p class="pnote">Informația e în schema de pe ${unit} ${pg}, nu în text, deci nu poate fi marcată. Uită-te pe imagine.</p>`);
- let el=document.getElementById("pop");if(!el){el=document.createElement("div");el.id="pop";el.className="pop";el.setAttribute("role","dialog");el.setAttribute("aria-modal","true");document.body.appendChild(el);el.addEventListener("click",e=>{if(e.target===el)closeSrc()})}
- el.setAttribute("aria-label",tag);
- el.innerHTML=`<div class="pop-in${SURSE_IMG?"":" txt"}"><div class="pop-h"><div class="vt"><span class="eyebrow">${esc(SURSE.docs[r.d])}</span><b>${esc(tag)} · ${isLP?"slide":"pagina"} ${pg}</b></div>
-  <div class="pop-act">${SURSE_IMG?"":"<!--"}<button type="button" class="btn icon" id="pz" aria-label="${big?"Micșorează":"Mărește"}">${big?"−":"+"}</button>${SURSE_IMG?"":"-->"}<button type="button" class="btn icon" id="px" aria-label="Închide">✕</button></div></div>
-  <div class="pop-b">${note}${SURSE_IMG?"":`<p class="pnote">Imaginea ${isLP?"slide-ului":"paginii"} nu e publicată aici, pentru că materialele de curs sunt de uz intern. Deschide ${esc(SURSE.docs[r.d])}, ${isLP?"slide-ul":"pagina"} ${pg}.</p>`}${SURSE_IMG?"":"<!--"}<figure class="slide${isLP?"":" rpage"}${big?" big":""}" style="margin:0 auto${meta.iw?`;aspect-ratio:${meta.iw}/${meta.ih}`:""}"><img src="src-img/${k}.jpg" alt="${esc(tag)}, ${isLP?"slide":"pagina"} ${pg}" width="${meta.iw||""}" height="${meta.ih||""}">${hl}</figure>${SURSE_IMG?"":"-->"}</div>
-  ${r.pp.length>1?`<div class="pager"><button type="button" class="btn" data-nav="-1" ${i===0?"disabled":""} style="justify-self:start">‹ <span>Anterior</span></button>
-   <div class="pg"><span class="mono">${i+1} / ${r.pp.length}</span><button type="button" class="btn home${onBest||!marked.length?"":" vis"}" id="ph">Înapoi la pasaj</button></div>
-   <button type="button" class="btn" data-nav="1" ${i===r.pp.length-1?"disabled":""} style="justify-self:end"><span>Următor</span> ›</button></div>`:""}</div>`;
- el.querySelector("#px").onclick=closeSrc;const pz=el.querySelector("#pz");if(pz)pz.onclick=()=>{popState.big=!popState.big;renderPop()};
- el.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>popNav(+b.dataset.nav));
- const ph=el.querySelector("#ph");if(ph)ph.onclick=()=>{popState.i=r.pp.indexOf(r.p);renderPop()};
- const f=el.querySelector(".hl");if(f&&!big)requestAnimationFrame(()=>{const b=el.querySelector(".pop-b");const fr=f.getBoundingClientRect(),br=b.getBoundingClientRect();if(fr.top>br.bottom-40)b.scrollTop+=fr.top-br.top-60});
- el.querySelector("#px").focus()}
-document.addEventListener("click",e=>{const b=e.target.closest("button.src[data-ref]");if(b)openSrc(b.dataset.ref)});
+/* popup de surse, ca în Planșe Morfopatologie și Simulatorul OSPE Histologie:
+   citatul din barem, slide-ul sau pagina cu pasajul evidențiat, răsfoire prin tot documentul */
+const NPAGES={lp1:17,lp2:17,lp3:19,lp4:14,ospe:17};
+const VTITLE={lp1:"LP 1 · Introducere – Farmacocinetică",lp2:"LP 2 · Introducere – Farmacocinetică",lp3:"LP 3 · Introducere – Farmacodinamie",lp4:"LP 4 · Farmacodinamie. Farmacotoxicologie",ospe:"Material OSPE · Farmacologie generală 2026–2027"};
+const srcPath=(d,n)=>`src/${d}_${String(n).padStart(2,"0")}.webp`;
+function itemAns(key){const [v,s,i]=key.split(".");const V=VARIANTE.find(x=>x.id==v);if(!V)return"";
+ const a=s==="b"?V.bonus.ans:V.subiecte[+s].items[+i].ans;return a.replace(/\s*\(\d+(?:,\d+)? p\)/g,"")}
+const POP={el:null,ret:null,
+ open(head,body){this.close();this.ret=document.activeElement;const d=document.createElement("div");d.className="pop";
+  d.innerHTML=`<div class="pop-in" role="dialog" aria-modal="true" aria-label="Sursa"><div class="pop-h">${head}<button type="button" class="btn icon" data-pclose aria-label="Închide">✕</button></div><div class="pop-b">${body}</div></div>`;
+  document.body.appendChild(d);this.el=d;document.body.style.overflow="hidden";
+  d.addEventListener("click",e=>{if(e.target===d||e.target.closest("[data-pclose]"))this.close()});d.querySelector("[data-pclose]").focus();return d},
+ close(){if(this.el){this.el.remove();this.el=null;document.body.style.overflow="";if(this.ret&&this.ret.isConnected)try{this.ret.focus({preventScroll:true})}catch(_){}}}};
+addEventListener("keydown",e=>{if(!POP.el)return;if(e.key==="Escape"){e.stopImmediatePropagation();POP.close()}
+ else if(e.key==="ArrowRight"||e.key==="ArrowLeft"){e.stopImmediatePropagation();e.preventDefault();const b=POP.el.querySelector(`[data-nav="${e.key==="ArrowRight"?1:-1}"]`);if(b&&!b.disabled)b.click()}},true);
+addEventListener("hashchange",()=>POP.close());
+function openSource(ref){const r=SURSE.refs[ref];if(!r)return;const key=ref.split("|")[0];const quote=itemAns(key);
+ const doc=r.d,p0=r.p,isLP=doc!=="ospe",N=NPAGES[doc],unit=isLP?"Slide-ul":"Pagina",where=isLP?"LP":"material";
+ const st={p:p0,big:false};const marked=Object.keys(r.h).map(Number);
+ if(!SURSE_IMG){const H=r.h[p0];
+  POP.open(`<div class="vt"><span class="eyebrow">${esc(VTITLE[doc])}</span><b>${unit} ${p0} · sursa citată</b></div>`,
+   `<div class="vq">${quote?`<blockquote class="pq">${esc(quote)}</blockquote>`:""}${H?`<div class="rx"><span class="eyebrow">Ce scrie în ${isLP?"LP":"material"}, ${unit.toLowerCase()} ${p0}</span><p><mark>${esc(H.q)}</mark></p></div>`:""}</div>
+   <p class="pnote">Imaginea ${isLP?"slide-ului":"paginii"} nu e publicată aici, pentru că materialele de curs sunt de uz intern. O găsești în ${esc(VTITLE[doc])}, ${unit.toLowerCase()} ${p0}.</p>`);
+  POP.el.querySelector(".pop-in").classList.add("txt");return}
+ const d=POP.open(`<div class="vt"><span class="eyebrow">${esc(VTITLE[doc])}</span><b>${unit} ${p0} · sursa citată</b></div><div class="pop-act"><button type="button" class="btn sm" data-zoom aria-pressed="false">Mărește</button></div>`,
+  `${quote?`<blockquote class="pq">${esc(quote)}</blockquote>`:""}<div id="vsl"></div><p class="pnote" id="vnote"></p>`);
+ d.querySelector(".pop-in").insertAdjacentHTML("beforeend",`<nav class="pager" aria-label="Răsfoiește"><button type="button" class="btn" data-nav="-1" aria-label="${isLP?"Slide-ul":"Pagina"} anterior">‹<span> Înapoi</span></button><div class="pg"><span class="mono" id="vpn"></span><button type="button" class="btn sm home" data-home>Pasajul citat</button></div><button type="button" class="btn" data-nav="1" aria-label="${isLP?"Slide-ul":"Pagina"} următor"><span>Înainte </span>›</button></nav>`);
+ const host=d.querySelector("#vsl"),note=d.querySelector("#vnote"),home=d.querySelector("[data-home]");
+ const render=first=>{const atHome=st.p===p0;const H=r.h[st.p];
+  host.className="slide"+(isLP?"":" rpage")+(st.big?" big":"");
+  host.innerHTML=`<img src="${srcPath(doc,st.p)}" alt="${esc(VTITLE[doc])}, ${unit.toLowerCase()} ${st.p}" width="${isLP?1200:1000}" height="${isLP?675:1414}">`+(H?H.b.map(q=>`<i class="hl" style="left:${q[0]*100}%;top:${q[1]*100}%;width:${q[2]*100}%;height:${q[3]*100}%"></i>`).join(""):"");
+  d.querySelector("#vpn").textContent=`${st.p} / ${N}`;
+  home.classList.toggle("vis",!atHome);home.disabled=atHome;
+  d.querySelector('[data-nav="-1"]').disabled=st.p<=1;d.querySelector('[data-nav="1"]').disabled=st.p>=N;
+  note.textContent=H?`Pasajul evidențiat e locul din ${where} pe care se sprijină informația.`:atHome?`Informația se sprijină pe schema de pe ${unit.toLowerCase()} ${p0}; nu e scrisă cuvânt cu cuvânt aici.`:`Răsfoiești ${isLP?"LP-ul":"materialul"}; pasajul citat e la ${unit.toLowerCase()} ${marked.length?marked.join(" și "):p0}.`;
+  if(first)requestAnimationFrame(()=>{const h=host.querySelector(".hl");if(h)h.scrollIntoView({block:"center",inline:"center"})});
+  [st.p-1,st.p+1].forEach(m=>{if(m>=1&&m<=N){const i=new Image();i.src=srcPath(doc,m)}})};
+ d.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>{const m=st.p+ +b.dataset.nav;if(m<1||m>N)return;st.p=m;render(false)});
+ home.onclick=()=>{st.p=p0;render(true)};
+ const zb=d.querySelector("[data-zoom]");zb.onclick=()=>{st.big=!st.big;zb.setAttribute("aria-pressed",st.big);zb.textContent=st.big?"Micșorează":"Mărește";render(false)};
+ let sx=null;host.addEventListener("touchstart",e=>{if(e.touches.length===1&&!st.big)sx=[e.touches[0].clientX,e.touches[0].clientY]},{passive:true});
+ host.addEventListener("touchend",e=>{if(!sx)return;const t=e.changedTouches[0],dx=t.clientX-sx[0],dy=t.clientY-sx[1];sx=null;if(Math.abs(dx)>60&&Math.abs(dx)>2*Math.abs(dy)){const b=d.querySelector(`[data-nav="${dx<0?1:-1}"]`);if(!b.disabled)b.click()}},{passive:true});
+ render(true)}
+document.addEventListener("click",e=>{const b=e.target.closest("button.src[data-ref]");if(!b)return;e.preventDefault();openSource(b.dataset.ref)});
 
 route();
 })();

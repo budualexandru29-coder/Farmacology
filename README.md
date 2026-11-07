@@ -8,7 +8,7 @@ Cazurile nu numesc medicamente. Dau proprietăți (afinitate, activitate intrins
 
 - **Fișă student** cu cronometru de 7 minute și câmpuri pentru răspunsuri.
 - **Barem de corectare** cu punctaj 0 / parțial / maxim, formulări acceptate și trimiteri la sursă (`LP 3 · c4`, `OSPE p.14`). Te punctezi singur, iar nota estimată se calculează automat.
-- **Trimiteri apăsabile**: fiecare sursă din barem deschide pasajul din LP sau din materialul OSPE, marcat cu galben. Versiunea de aici arată textul citat; imaginile slide-urilor nu sunt publicate, pentru că materialele de curs sunt de uz intern.
+- **Trimiteri apăsabile**: fiecare sursă din barem (`LP 3 p.15`, `OSPE p.9`) deschide citatul din barem și pasajul din LP sau din materialul OSPE, marcat cu galben, ca în Planșe Morfopatologie și în Simulatorul OSPE Histologie. Versiunea de aici arată textul citat; imaginile slide-urilor nu sunt publicate, pentru că materialele de curs sunt de uz intern.
 - **Matrice de acoperire**: ce caz din LP apare în ce variantă.
 - **Pentru tipar**: foile în așezarea oficială. Varianta gata de printat e în `OSPE-Farmacologie-V1-V20.pdf`.
 
